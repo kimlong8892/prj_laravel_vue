@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('user')->group(function () {
+    Route::post('login', [\App\Http\Controllers\Api\Auth\AuthController::class, 'login']);
+    Route::post('register', [\App\Http\Controllers\Api\Auth\AuthController::class, 'register']);
+    Route::post('forgot-password', [\App\Http\Controllers\Api\Auth\ForgotPasswordController::class, 'sendCodeResetPassword']);
+    Route::post('reset-password', [\App\Http\Controllers\Api\Auth\ResetPasswordController::class, 'setNewPassword']);
+});
+
+Route::prefix('admin')->group(function () {
+    Route::post('login', [\App\Http\Controllers\Api\Admin\Auth\AuthController::class, 'login']);
+    Route::post('register', [\App\Http\Controllers\Api\Admin\Auth\AuthController::class, 'register']);
+    Route::post('forgot-password', [\App\Http\Controllers\Api\Admin\Auth\ForgotPasswordController::class, 'sendCodeResetPassword']);
+    Route::post('reset-password', [\App\Http\Controllers\Api\Admin\Auth\ResetPasswordController::class, 'setNewPassword']);
 });
