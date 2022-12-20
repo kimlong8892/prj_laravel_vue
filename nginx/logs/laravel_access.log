@@ -122,3 +122,6 @@
 172.27.0.1 - - [20/Dec/2022:08:36:25 +0000] "POST /api/user/register HTTP/1.1" 500 13086 "-" "PostmanRuntime/7.29.2"
 172.27.0.1 - - [20/Dec/2022:08:47:29 +0000] "POST /api/user/register HTTP/1.1" 500 14512 "-" "PostmanRuntime/7.29.2"
 172.27.0.1 - - [20/Dec/2022:08:47:42 +0000] "POST /api/user/register HTTP/1.1" 200 152 "-" "PostmanRuntime/7.29.2"
+172.27.0.1 - - [20/Dec/2022:08:48:29 +0000] "POST /api/user/register HTTP/1.1" 400 56 "-" "PostmanRuntime/7.29.2"
+172.27.0.1 - - [20/Dec/2022:08:48:30 +0000] "POST /api/user/register HTTP/1.1" 400 56 "-" "PostmanRuntime/7.29.2"
+172.27.0.1 - - [20/Dec/2022:08:52:21 +0000] "POST /api/user/register HTTP/1.1" 422 211 "-" "PostmanRuntime/7.29.2"

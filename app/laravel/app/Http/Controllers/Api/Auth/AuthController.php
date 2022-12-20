@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\UserLoginRequest;
+use App\Http\Requests\User\UserStoreRequest;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\JsonResponse;
@@ -20,22 +22,14 @@ class AuthController extends Controller {
     }
 
     /**
-     * @param Request $request
+     * @param UserLoginRequest $request
      * @return JsonResponse
      */
-    public function login(Request $request): JsonResponse {
+    public function login(UserLoginRequest $request): JsonResponse {
         try {
             $email = $request->get('email') ?? null;
             $password = $request->get('password') ?? null;
             $expiresAt = Carbon::now()->addMinutes(config('sanctum.expiration'));
-
-            if (empty($email) || empty($password)) {
-                return response()->json([
-                    'success' => false,
-                    'code_error' => 'EMPTY_EMAIL_OR_PASSWORD',
-                ], 400);
-            }
-
             $tokenResult = $this->userRepository->getTokenUser($email, $password, $expiresAt);
 
             if (empty($tokenResult)) {
@@ -44,6 +38,7 @@ class AuthController extends Controller {
                     'code_error' => 'INVALID_EMAIL_OR_PASSWORD'
                 ], 400);
             }
+
             return response()->json([
                 'success' => true,
                 'status' => 200,
@@ -89,10 +84,10 @@ class AuthController extends Controller {
     }
 
     /**
-     * @param Request $request
+     * @param UserStoreRequest $request
      * @return JsonResponse
      */
-    public function register(Request $request): JsonResponse {
+    public function register(UserStoreRequest $request): JsonResponse {
         try {
             $name = $request->get('name') ?? null;
             $email = $request->get('email') ?? null;
@@ -105,22 +100,15 @@ class AuthController extends Controller {
                 ], 400);
             }
 
-            if (!empty($name) && !empty($email) && !empty($password)) {
-                $expiresAt = Carbon::now()->addMinutes(config('sanctum.expiration'));
-                $tokenResult = $this->userRepository->registerUserToken($name, $email, $password, $expiresAt);
-
-                return response()->json([
-                    'success' => true,
-                    'access_token' => $tokenResult,
-                    'token_type' => 'Bearer',
-                    'expires_at' => $expiresAt->setTimezone('UTC')
-                ]);
-            }
+            $expiresAt = Carbon::now()->addMinutes(config('sanctum.expiration'));
+            $tokenResult = $this->userRepository->registerUserToken($name, $email, $password, $expiresAt);
 
             return response()->json([
-                'success' => false,
-                'code_error' => 'EMPTY_NAME_OR_EMAIL_PASSWORD',
-            ], 400);
+                'success' => true,
+                'access_token' => $tokenResult,
+                'token_type' => 'Bearer',
+                'expires_at' => $expiresAt->setTimezone('UTC')
+            ]);
         } catch (\Exception $exception) {
             return response()->json([
                 'success' => false,
