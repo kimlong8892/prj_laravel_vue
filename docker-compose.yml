@@ -1,0 +1,92 @@
+# laravel 5500
+# vue 5501
+# nodejs 5502
+
+version: '3.9'
+services:
+  laravel_web_server:
+    container_name: 'laravel_web_server'
+    build:
+      args:
+        user: laravel_user
+        uid: 1000
+      dockerfile: docker_file/laravel.Dockerfile
+    environment:
+      PHP_IDE_CONFIG: "serverName=laravel_web_server"
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    image: laravel-app
+    restart: unless-stopped
+    volumes:
+      - ./app/laravel:/var/www/html/laravel
+      - ./xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    working_dir: /var/www/html
+    networks:
+      - app-wp-network
+  vue_web_server:
+    container_name: 'vue_server'
+    ports:
+      - '5501:5501' # vue_port
+    expose:
+      - '5501'
+    build:
+      args:
+        user: vue_user
+        uid: 1000
+      dockerfile: docker_file/vue.Dockerfile
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    image: vue-app
+    restart: unless-stopped
+    volumes:
+      - ./app/vue:/var/www/html/vue
+    working_dir: /var/www/html
+    networks:
+      - app-wp-network
+  nodejs_web_server:
+    container_name: 'nodejs_web_server'
+    build:
+      args:
+        user: nodejs_user
+        uid: 1000
+      dockerfile: docker_file/nodejs.Dockerfile
+    ports:
+      - '5502:3000' # nodejs_port
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    image: nodejs-app
+    restart: unless-stopped
+    volumes:
+      - ./app/nodejs:/var/www/html/nodejs
+    working_dir: /var/www/html
+    networks:
+      - app-wp-network
+  app_nginx_server:
+    container_name: 'app_nginx_server'
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    ports:
+      - '5500:80' #laravel_port
+    volumes:
+      - ./app/laravel:/var/www/html/laravel
+      - ./nginx/conf.d:/etc/nginx/conf.d/
+      - ./nginx/logs:/var/log/nginx/
+    networks:
+      - app-wp-network
+  laravel_db_server:
+    container_name: 'laravel_db_server'
+    image: mariadb:10.5
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: Admin123
+      MARIADB_DATABASE: laravel
+      MARIADB_USER: admin
+      MARIADB_PASSWORD: Admin123
+    ports:
+      - "3310:3306" # laravel_db_port
+    networks:
+      - app-wp-network
+#Docker Networks
+networks:
+  app-wp-network:
+    driver: bridge
