@@ -1,10 +1,7 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import AdminLogin from "@/components/AdminLogin";
-Vue.use(Router);
+import AdminRouter from "@/router/AdminRouter";
 
-export default new Router({
-    routes: [{
-        path: '/login', name: 'AdminLogin', component: AdminLogin
-    },]
-});
+const ListRouter = [
+    ...AdminRouter
+];
+
+export default ListRouter;
