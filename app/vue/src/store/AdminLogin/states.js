@@ -1,5 +1,6 @@
 export default {
     email: '',
-    password: ''
+    password: '',
+    error: ''
 };
 

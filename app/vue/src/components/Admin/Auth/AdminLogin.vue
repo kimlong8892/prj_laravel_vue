@@ -2,6 +2,8 @@
   <div class="card card-container">
     <img id="profile-img" class="profile-img-card" src="/images/avatar.png"/>
     <form class="form-signin" @submit.prevent="submitLogin" method="POST">
+        <p class="alert alert-danger" v-if="this.getError">{{ this.getError }}</p>
+
         <div class="form-group">
           <label for="email">Email</label>
           <input @blur="validate()"
@@ -31,12 +33,12 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from "vuex";
+import {mapActions, mapGetters, mapMutations} from "vuex";
 
 export default {
   name: 'AdminLogin',
   computed: {
-    ...mapGetters(['getTest'])
+      ...mapGetters(['getError'])
   },
   data() {
     return {
@@ -69,10 +71,14 @@ export default {
       const isInvalid = this.validate();
 
       if (!isInvalid) {
-        alert(1);
+        this.setEmail(this.userInfo.email);
+        this.setPassword(this.userInfo.password);
+        this.$isLoading(true);
+        this.login(this);
       }
     },
-    ...mapActions(['updateTest'])
+    ...mapActions(['login']),
+    ...mapMutations(['setEmail', 'setPassword'])
   }
 }
 </script>

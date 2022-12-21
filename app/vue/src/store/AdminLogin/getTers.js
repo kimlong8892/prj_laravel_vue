@@ -1,3 +1,5 @@
 export default {
-    getTest: state => state.test
+    getEmail: state => state.email,
+    getPassword: state => state.password,
+    getError: state => state.error
 }

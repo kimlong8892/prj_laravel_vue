@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\Admin\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\AdminLoginRequest;
-use App\Http\Requests\User\AdminStoreRequest;
+use App\Http\Requests\Admin\AdminLoginRequest;
+use App\Http\Requests\Admin\AdminStoreRequest;
 use App\Models\User;
 use App\Repositories\Admin\AdminRepositoryInterface;
 use Illuminate\Http\JsonResponse;

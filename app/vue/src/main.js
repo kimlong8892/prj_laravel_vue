@@ -11,6 +11,14 @@ Vue.use(IconsPlugin)
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
 
+import loading from 'vuejs-loading-screen';
+Vue.use(loading, {
+    bg: '#41b883ad',
+    icon: 'refresh',
+    size: 3,
+    icon_color: 'white',
+})
+
 const authRouter = new VueRouter({
     mode: 'history',
     routes: ListRouter
