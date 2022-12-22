@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Api\Admin\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\AdminForgotPasswordRequest;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
 
@@ -22,16 +22,9 @@ class ForgotPasswordController extends Controller {
         $this->userRepository = $userRepository;
     }
 
-    public function sendCodeResetPassword(Request $request): JsonResponse {
+    public function sendCodeResetPassword(AdminForgotPasswordRequest $request): JsonResponse {
         try {
             $email = $request->get('email') ?? null;
-
-            if (empty($email)) {
-                return response()->json([
-                    'success' => false,
-                    'code_error' => 'EMPTY_EMAIL'
-                ], 400);
-            }
 
             if (!$this->userRepository->checkExistsEmail($email)) {
                 return response()->json([

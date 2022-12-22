@@ -1,216 +1,143 @@
 <template>
-  <div class="card card-container">
-    <img id="profile-img" class="profile-img-card" src="/images/avatar.png"/>
-    <form class="form-signin" @submit.prevent="submitLogin" method="POST">
-        <p class="alert alert-danger" v-if="this.getError">{{ this.getError }}</p>
+    <section class="bg-gray-50 dark:bg-gray-900">
+        <loading v-model:active="this.getLoading"
+                 :is-full-page="fullPage"/>
+        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+            <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+                    <div class="p-3 text-center">
+                        <img class="w-50 mr-2 rounded-full d-inline" src="/images/avatar.png" alt="logo">
+                    </div>
+                    <h1 class="text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                        {{ $t('LOGIN') }}
+                    </h1>
+                    <p class="text-red text-center" v-if="this.getError">{{ $t(this.getError) }}</p>
+                    <form class="space-y-4 md:space-y-6" @submit.prevent="submitLogin">
+                        <div>
+                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                {{ $t('EMAIL') }}
+                                <RequiredIcon/>
+                            </label>
+                            <input type="email"
+                                   name="email"
+                                   id="email"
+                                   v-model="email"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                   placeholder="">
+                            <p class="text-red" v-if="errors.email">{{ $t(errors.email) }}</p>
+                        </div>
+                        <div>
+                            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                {{ $t('PASSWORD') }}
+                                <RequiredIcon/>
+                            </label>
+                            <input type="password"
+                                   name="password"
+                                   id="password"
+                                   v-model="password"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <p class="text-red" v-if="errors.password">{{ $t(errors.password) }}</p>
+                        </div>
+                        <div>
+                            <vue-recaptcha @verify="verifyMethod" class="w-100"
+                                           ref="recaptcha"
+                                           @reset="resetCaptcha()"
+                                           :sitekey="this.recaptchaSiteKey"></vue-recaptcha>
+                            <p class="text-red" v-if="errors.recaptcha">{{ $t(errors.recaptcha) }}</p>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            {{ $t('LOGIN') }}
+                        </button>
+                        <div class="items-center text-center">
+                            <RouterLink to="/admin/forgot-password" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
+                                {{ $t('FORGOT_PASSWORD') }}?
+                            </RouterLink>
+                        </div>
 
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input @blur="validate()"
-                 type="text"
-                 name="email"
-                 class="form-control"
-                 v-model="userInfo.email">
-          <p class="text-danger" v-if="errors.email">{{ errors.email }}</p>
+                    </form>
+                </div>
+            </div>
         </div>
-
-      <div class="form-group">
-        <label for="email">Password</label>
-        <input @blur="validate()"
-               type="password"
-               name="password"
-               class="form-control"
-               v-model="userInfo.password">
-        <p class="text-danger" v-if="errors.password">{{ errors.password }}</p>
-      </div>
-
-      <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Login</button>
-    </form><!-- /form -->
-    <a href="#" class="forgot-password">
-      Forgot the password?
-    </a>
-  </div><!-- /card-container -->
+    </section>
 </template>
 
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
+import {isEmail} from "@/helpers/functions";
+import RequiredIcon from "@/components/Admin/Include/RequiredIcon";
+import { VueRecaptcha } from 'vue-recaptcha';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
 
 export default {
-  name: 'AdminLogin',
-  computed: {
-      ...mapGetters(['getError'])
-  },
-  data() {
-    return {
-      userInfo: {
-        email: "",
-        password: "",
-      },
-      errors: []
-    };
-  },
-  methods: {
-    validate() {
-      let isInvalid = false;
-
-      this.errors = [];
-
-      if (this.userInfo.email === '') {
-        this.errors.email = 'Email is required';
-        isInvalid = true;
-      }
-
-      if (this.userInfo.password === '') {
-        this.errors.password = 'Password is required';
-        isInvalid = true;
-      }
-
-      return isInvalid;
+    name: 'AdminLogin',
+    computed: {
+        ...mapGetters(['getError', 'getLoading'])
     },
-    submitLogin() {
-      const isInvalid = this.validate();
-
-      if (!isInvalid) {
-        this.setEmail(this.userInfo.email);
-        this.setPassword(this.userInfo.password);
-        this.$isLoading(true);
-        this.login(this);
-      }
+    components: {VueRecaptcha, RequiredIcon, Loading},
+    data() {
+        return {
+            email: '',
+            password: '',
+            errors: [],
+            recaptcha: '',
+            recaptchaSiteKey: process.env.VUE_APP_RECAPTCHA_SITE_KEY,
+            fullPage: true
+        };
     },
-    ...mapActions(['login']),
-    ...mapMutations(['setEmail', 'setPassword'])
-  }
+    methods: {
+        validate() {
+            let isInvalid = false;
+            this.errors = [];
+
+            if (this.email === '') {
+                this.errors.email = 'FIELD_IS_REQUIRED';
+                isInvalid = true;
+            } else if (!isEmail(this.email)) {
+                this.errors.email = 'FIELD_IS_EMAIL';
+                isInvalid = true;
+            }
+
+            if (this.password === '') {
+                this.errors.password = 'FIELD_IS_REQUIRED';
+                isInvalid = true;
+            }
+
+            if (this.recaptcha === '') {
+                this.errors.recaptcha = 'FIELD_IS_REQUIRED';
+                isInvalid = true;
+            }
+
+            return isInvalid;
+        },
+        submitLogin() {
+            this.setError('');
+            const isInvalid = this.validate();
+
+            if (!isInvalid) {
+                this.setLoading(true);
+                this.setEmail(this.email);
+                this.setPassword(this.password);
+                this.setRecaptcha(this.recaptcha);
+                this.login();
+                this.resetCaptcha();
+            }
+        },
+        ...mapActions(['login']),
+        ...mapMutations(['setEmail', 'setPassword', 'setRecaptcha', 'setLoading', 'setError']),
+        verifyMethod(response) {
+            this.recaptcha = response;
+            this.validate();
+        },
+        resetCaptcha() {
+            this.$refs.recaptcha.reset();
+            this.recaptcha = '';
+        }
+    },
 }
 </script>
 
 <style scoped>
-.card-container.card {
-  max-width: 350px;
-  padding: 40px 40px;
-}
 
-.btn {
-  font-weight: 700;
-  height: 36px;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
-  cursor: default;
-}
 
-/*
- * Card component
- */
-.card {
-  background-color: #F7F7F7;
-  /* just in case there no content*/
-  padding: 20px 25px 30px;
-  margin: 0 auto 25px;
-  margin-top: 50px;
-  /* shadows and rounded borders */
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-}
-
-.profile-img-card {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 10px;
-  display: block;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
-}
-
-/*
- * Form styles
- */
-.profile-name-card {
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-  margin: 10px 0 0;
-  min-height: 1em;
-}
-
-.reauth-email {
-  display: block;
-  color: #404040;
-  line-height: 2;
-  margin-bottom: 10px;
-  font-size: 14px;
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-.form-signin #inputEmail,
-.form-signin #inputPassword {
-  direction: ltr;
-  height: 44px;
-  font-size: 16px;
-}
-
-.form-signin input[type=email],
-.form-signin input[type=password],
-.form-signin input[type=text],
-.form-signin button {
-  width: 100%;
-  display: block;
-  margin-bottom: 10px;
-  z-index: 1;
-  position: relative;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-
-.form-signin .form-control:focus {
-  border-color: rgb(104, 145, 162);
-  outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgb(104, 145, 162);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgb(104, 145, 162);
-}
-
-.btn.btn-signin {
-  /*background-color: #4d90fe; */
-  background-color: rgb(104, 145, 162);
-  /* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
-  padding: 0px;
-  font-weight: 700;
-  font-size: 14px;
-  height: 36px;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  border: none;
-  -o-transition: all 0.218s;
-  -moz-transition: all 0.218s;
-  -webkit-transition: all 0.218s;
-  transition: all 0.218s;
-}
-
-.btn.btn-signin:hover,
-.btn.btn-signin:active,
-.btn.btn-signin:focus {
-  background-color: rgb(12, 97, 33);
-}
-
-.forgot-password {
-  color: rgb(104, 145, 162);
-}
-
-.forgot-password:hover,
-.forgot-password:active,
-.forgot-password:focus {
-  color: rgb(12, 97, 33);
-}
 </style>

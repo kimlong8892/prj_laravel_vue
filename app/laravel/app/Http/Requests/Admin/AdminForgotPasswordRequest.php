@@ -5,7 +5,7 @@ namespace App\Http\Requests\Admin;
 use App\Rules\CaptchaGoogle;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminLoginRequest extends FormRequest
+class AdminForgotPasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,6 @@ class AdminLoginRequest extends FormRequest
     public function rules(): array {
         return [
             'email' => 'required|email',
-            'password' => 'required',
             'recaptcha' => ['required', new CaptchaGoogle()]
         ];
     }

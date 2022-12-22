@@ -1,11 +1,11 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import {createStore} from "vuex";
 import AdminLoginStore from "@/store/AdminLogin/store";
-Vue.use(Vuex);
+import AdminForgotPassword from "@/components/Admin/Auth/AdminForgotPassword";
 
-const store = new Vuex.Store({
+const store = createStore({
     modules: {
-        AdminLoginStore
+        AdminLoginStore,
+        AdminForgotPassword
     }
 });
 

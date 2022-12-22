@@ -1,6 +1,8 @@
 export default {
     email: '',
     password: '',
-    error: ''
+    error: '',
+    recaptcha: '',
+    isLoading: false
 };
 
