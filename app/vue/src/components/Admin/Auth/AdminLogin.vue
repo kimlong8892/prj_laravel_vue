@@ -1,7 +1,7 @@
 <template>
     <section class="bg-gray-50 dark:bg-gray-900">
         <loading v-model:active="this.getLoading"
-                 :is-full-page="fullPage"/>
+                 :is-full-page="true"/>
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                 <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -11,49 +11,40 @@
                     <h1 class="text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                         {{ $t('LOGIN') }}
                     </h1>
-                    <p class="text-red text-center" v-if="this.getError">{{ $t(this.getError) }}</p>
+                    <ErrorAlert v-if="this.getError" :error="$t(this.getError)"/>
                     <form class="space-y-4 md:space-y-6" @submit.prevent="submitLogin">
+                        <InputField name="email"
+                                    :modelValue="this.email"
+                                    @update:modelValue="this.email = $event; validate();"
+                                    :error="this.errors.email"
+                                    type="text"
+                                    label="EMAIL"
+                                    />
+
+                        <InputField name="password"
+                                    :modelValue="this.password"
+                                    @update:modelValue="this.password = $event; validate();"
+                                    :error="this.errors.password"
+                                    type="password"
+                                    label="PASSWORD"
+                                    />
                         <div>
-                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                {{ $t('EMAIL') }}
-                                <RequiredIcon/>
-                            </label>
-                            <input type="email"
-                                   name="email"
-                                   id="email"
-                                   v-model="email"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                   placeholder="">
-                            <p class="text-red" v-if="errors.email">{{ $t(errors.email) }}</p>
-                        </div>
-                        <div>
-                            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                {{ $t('PASSWORD') }}
-                                <RequiredIcon/>
-                            </label>
-                            <input type="password"
-                                   name="password"
-                                   id="password"
-                                   v-model="password"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <p class="text-red" v-if="errors.password">{{ $t(errors.password) }}</p>
-                        </div>
-                        <div>
-                            <vue-recaptcha @verify="verifyMethod" class="w-100"
+                            <vue-recaptcha @verify="verifyCaptcha" class="w-100"
                                            ref="recaptcha"
                                            @reset="resetCaptcha()"
                                            :sitekey="this.recaptchaSiteKey"></vue-recaptcha>
                             <p class="text-red" v-if="errors.recaptcha">{{ $t(errors.recaptcha) }}</p>
                         </div>
-                        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <button type="submit"
+                                class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             {{ $t('LOGIN') }}
                         </button>
-                        <div class="items-center text-center">
-                            <RouterLink to="/admin/forgot-password" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
+                        <div class="text-right mt-0">
+                            <RouterLink to="/admin/forgot-password"
+                                        class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
                                 {{ $t('FORGOT_PASSWORD') }}?
                             </RouterLink>
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -64,25 +55,34 @@
 <script>
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import {isEmail} from "@/helpers/functions";
-import RequiredIcon from "@/components/Admin/Include/RequiredIcon";
-import { VueRecaptcha } from 'vue-recaptcha';
+import {VueRecaptcha} from 'vue-recaptcha';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
+import {useMeta} from 'vue-meta'
+import InputField from "@/components/Admin/Include/InputField";
+import ErrorAlert from "@/components/Admin/Include/ErrorAlert";
 
 export default {
+    setup() {
+        useMeta({
+            title: 'Admin login'
+        });
+    },
     name: 'AdminLogin',
     computed: {
-        ...mapGetters(['getError', 'getLoading'])
+        ...mapGetters('AdminLoginStore', [
+            'getError',
+            'getLoading'
+        ])
     },
-    components: {VueRecaptcha, RequiredIcon, Loading},
+    components: {VueRecaptcha, Loading, InputField, ErrorAlert},
     data() {
         return {
             email: '',
             password: '',
             errors: [],
             recaptcha: '',
-            recaptchaSiteKey: process.env.VUE_APP_RECAPTCHA_SITE_KEY,
-            fullPage: true
+            recaptchaSiteKey: process.env.VUE_APP_RECAPTCHA_SITE_KEY
         };
     },
     methods: {
@@ -115,24 +115,22 @@ export default {
             const isInvalid = this.validate();
 
             if (!isInvalid) {
-                this.setLoading(true);
-                this.setEmail(this.email);
-                this.setPassword(this.password);
-                this.setRecaptcha(this.recaptcha);
-                this.login();
+                this.login({
+                    email: this.email, password: this.password, recaptcha: this.recaptcha
+                });
                 this.resetCaptcha();
             }
         },
-        ...mapActions(['login']),
-        ...mapMutations(['setEmail', 'setPassword', 'setRecaptcha', 'setLoading', 'setError']),
-        verifyMethod(response) {
+        ...mapActions('AdminLoginStore', ['login']),
+        ...mapMutations('AdminLoginStore', ['setLoading', 'setError']),
+        verifyCaptcha(response) {
             this.recaptcha = response;
             this.validate();
         },
         resetCaptcha() {
             this.$refs.recaptcha.reset();
             this.recaptcha = '';
-        }
+        },
     },
 }
 </script>

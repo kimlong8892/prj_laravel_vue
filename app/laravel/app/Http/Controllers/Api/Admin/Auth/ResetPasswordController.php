@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api\Admin\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\AdminResetPasswordRequest;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 /**
  * AuthController
@@ -20,34 +21,20 @@ class ResetPasswordController extends Controller {
         $this->userRepository = $userRepository;
     }
 
-    public function setNewPassword(Request $request): JsonResponse {
+    public function setNewPassword(AdminResetPasswordRequest $request): JsonResponse {
         try {
-            if (empty($request->get('token'))) {
-                return response()->json([
-                    'success' => false,
-                    'code_error' => 'INVALID_TOKEN'
-                ], 400);
-            }
-
-            if (empty($request->get('password')) && empty($request->get('password_confirmation'))) {
-                return response()->json([
-                    'success' => false,
-                    'code_error' => 'EMPTY_PASSWORD'
-                ], 400);
-            }
-
-            if ($request->get('password') != $request->get('password_confirmation')) {
-                return response()->json([
-                    'success' => false,
-                    'code_error' => 'INVALID_PASSWORD'
-                ], 400);
-            }
-
-            $response = $this->broker()->reset(
+            $response = Password::broker('admins')->reset(
                 $this->credentials($request), function ($user, $password) {
                     $this->resetPassword($user, $password);
                 }
             );
+
+            if ($response != 'passwords.reset') {
+                return response()->json([
+                    'success' => false,
+                    'code_error' => $response
+                ]);
+            }
 
             return response()->json([
                 'success' => true,

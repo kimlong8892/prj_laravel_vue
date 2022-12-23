@@ -1,13 +1,15 @@
 import axios from 'axios';
 
 export default {
-    forgotPassword(context, payload) {
+    resetPassword(context, payload) {
         context.commit('setLoading', true);
 
-        axios.post(process.env.VUE_APP_URL_API_BACKEND + '/admin/forgot-password', {
+        axios.post(process.env.VUE_APP_URL_API_BACKEND + '/admin/reset-password', {
             email: payload.email,
+            password: payload.password,
+            password_confirmation: payload.password,
             recaptcha: payload.recaptcha,
-            url: window.location.origin + '/admin/reset-password'
+            token: payload.token
         })
         .then(response => {
             context.commit('setLoading', false);
@@ -16,23 +18,24 @@ export default {
             if (response.data.hasOwnProperty('success') && response.data.success) {
                 context.commit('setSuccess', true);
                 // eslint-disable-next-line no-prototype-builtins
+            } else if (response.data.hasOwnProperty('code_error')) {
+                context.commit('setError', response.data.code_error);
             }
         })
         .catch(e => {
-            context.commit('setLoading', false);
-            context.commit('setSuccess', false);
-
             if (e.response.data) {
                 const dataError = e.response.data;
+
                 // eslint-disable-next-line no-prototype-builtins
                 if (dataError.hasOwnProperty('code_error')) {
-                    dataError.code_error = dataError.code_error.replace('.', '_');
                     context.commit('setError', dataError.code_error);
                     // eslint-disable-next-line no-prototype-builtins
                 } else if (dataError.hasOwnProperty('errors')) {
                     context.commit('setError', dataError.message);
                 }
             }
+
+            context.commit('setLoading', false);
         });
     }
 }

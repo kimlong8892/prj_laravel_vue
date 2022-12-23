@@ -4,6 +4,7 @@ import AdminMutations from "@/store/AdminLogin/mutations";
 import AdminStates from "@/store/AdminLogin/states";
 
 const AdminLoginStore = {
+    namespaced: true,
     state: AdminStates,
     mutations: AdminMutations,
     getters: AdminGetTers,

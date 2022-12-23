@@ -7,7 +7,6 @@ use App\Http\Requests\Admin\AdminForgotPasswordRequest;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Password;
 
 /**
@@ -26,36 +25,27 @@ class ForgotPasswordController extends Controller {
         try {
             $email = $request->get('email') ?? null;
 
-            if (!$this->userRepository->checkExistsEmail($email)) {
+            if ($this->userRepository->checkExistsEmail($email)) {
                 return response()->json([
                     'success' => false,
                     'code_error' => 'INVALID_EMAIL'
-                ], 400);
+                ], 422);
             }
 
-            DB::table('password_resets')->where('email', $email)->delete();
-            $response = Password::broker('users')->sendResetLink(
+            $response = Password::broker('admins')->sendResetLink(
                 $this->credentials($request)
             );
 
-            if ($response === 'passwords.sent') {
-                return response()->json([
-                    'success' => true,
-                    'data' => $response
-                ]);
-            }
-
-            if ($response === 'passwords.throttled') {
+            if ($response != 'passwords.sent') {
                 return response()->json([
                     'success' => false,
-                    'code_error' => 'HAVE_SEND_FIRST'
-                ], 400);
+                    'code_error' => $response
+                ], 422);
             }
 
             return response()->json([
-                'success' => false,
-                'code_error' => $response
-            ], 400);
+                'success' => true
+            ]);
         } catch (\Exception $exception) {
             return response()->json([
                 'success' => false,

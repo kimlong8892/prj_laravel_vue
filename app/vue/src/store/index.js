@@ -1,11 +1,13 @@
 import {createStore} from "vuex";
 import AdminLoginStore from "@/store/AdminLogin/store";
-import AdminForgotPassword from "@/components/Admin/Auth/AdminForgotPassword";
+import AdminForgotPasswordStore from "@/store/AdminForgotPassword/store";
+import AdminResetPasswordStore from "@/store/AdminResetPassword/store";
 
 const store = createStore({
     modules: {
         AdminLoginStore,
-        AdminForgotPassword
+        AdminForgotPasswordStore,
+        AdminResetPasswordStore
     }
 });
 

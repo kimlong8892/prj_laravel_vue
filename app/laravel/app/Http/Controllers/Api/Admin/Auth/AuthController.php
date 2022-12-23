@@ -36,7 +36,7 @@ class AuthController extends Controller {
                 return response()->json([
                     'success' => false,
                     'code_error' => 'INVALID_EMAIL_OR_PASSWORD'
-                ], 400);
+                ], 422);
             }
 
             return response()->json([
