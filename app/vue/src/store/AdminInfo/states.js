@@ -1,4 +1,4 @@
 export default {
-    adminInfo: {}
+    adminInfo: null
 };
 

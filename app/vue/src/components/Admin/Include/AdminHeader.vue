@@ -6,6 +6,7 @@ const isOpen = ref(false);
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import axios from "axios";
 
 export default {
     name: 'AdminHeader',
@@ -18,11 +19,23 @@ export default {
         }
     },
     methods: {
-        ...mapActions('AdminInfoStore', ['actionAdminInfo'])
+        ...mapActions('AdminInfoStore', ['actionAdminInfo']),
+        logout() {
+            axios.get(process.env.VUE_APP_URL_API_BACKEND + '/admin/logout', {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('admin_access_token'),
+                    Accept: 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.data.success) {
+                    localStorage.removeItem('admin_access_token');
+                    window.location.replace(window.location.origin + '/admin/login');
+                }
+            });
+        }
     },
-    beforeMount(){
-        this.actionAdminInfo()
-    },
+
 }
 </script>
 
@@ -33,7 +46,7 @@ export default {
                 class="flex flex-col h-screen p-3 duration-300 bg-gray-800 shadow"
         >
             <div class="space-y-3">
-                <h1 v-if="this.getAdminInfo" class="text-xl font-bold text-white text-success">
+                <h1 class="text-xl font-bold text-white text-success">
                     {{ $t('hello') }} - {{ this.getAdminInfo.name }}
                 </h1>
                 <div class="flex items-center justify-between">
@@ -187,10 +200,9 @@ export default {
                                 <span class="text-gray-100"> Settings </span>
                             </a>
                         </li>
-                        <li class="rounded-sm">
-                            <a
-                                    href="#"
-                                    class="flex items-center p-2 space-x-3 rounded-md"
+                        <li class="rounded-sm" @click="logout">
+                            <span
+                                 class="flex items-center p-2 space-x-3 rounded-md cursor-pointer"
                             >
                                 <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -208,7 +220,7 @@ export default {
                                 </svg>
 
                                 <span class="text-gray-100"> Logout </span>
-                            </a>
+                            </span>
                         </li>
                     </ul>
                 </div>

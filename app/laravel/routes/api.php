@@ -24,6 +24,7 @@ Route::middleware(['cors'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::post('login', [\App\Http\Controllers\Api\Admin\Auth\AuthController::class, 'login']);
         Route::post('register', [\App\Http\Controllers\Api\Admin\Auth\AuthController::class, 'register']);
+        Route::get('logout', [\App\Http\Controllers\Api\Admin\Auth\AuthController::class, 'logout']);
         Route::post('forgot-password', [\App\Http\Controllers\Api\Admin\Auth\ForgotPasswordController::class, 'sendCodeResetPassword']);
         Route::post('reset-password', [\App\Http\Controllers\Api\Admin\Auth\ResetPasswordController::class, 'setNewPassword']);
 
