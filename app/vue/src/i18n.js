@@ -22,7 +22,12 @@ const i18n = createI18n({
             "RESET_PASSWORD_SUCCESS": "Đặt lại mật khẩu thành công",
             "passwords.token": "Link đặt mật khẩu không còn tồn tại",
             "passwords_user": "Người dùng này không còn tồn tại",
-            "passwords_throttled": "Bạn đã đặt lại mật khẩu mới đây, vui lòng đợi ít phút"
+            "passwords_throttled": "Bạn đã đặt lại mật khẩu mới đây, vui lòng đợi ít phút",
+            "hello": "Xin chào",
+            "Admin home": "Trang chủ quản trị",
+            "Admin login": "Đăng nhập quản trị",
+            "Admin forgot password": "Quên mật khẩu quản trị",
+            "Admin reset password": "Đặt lại mật khẩu quản trị"
         }
     }
 });

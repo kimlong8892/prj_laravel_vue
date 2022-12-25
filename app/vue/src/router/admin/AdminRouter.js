@@ -3,22 +3,24 @@ import AdminHome from "@/components/Admin/Home/AdminHome";
 import AdminLogin from "@/components/Admin/Auth/AdminLogin";
 import AdminResetPassword from "@/components/Admin/Auth/AdminResetPassword";
 
+const ADMIN_DIR = "/" + process.env.VUE_APP_ADMIN_DIR ?? 'admin';
+
 const AdminRouter = [{
-    path: '/admin/login',
+    path: ADMIN_DIR + '/login',
     name: 'admin.login',
     component: AdminLogin
 },
     {
-        path: '/admin/forgot-password',
+        path: ADMIN_DIR + '/forgot-password',
         name: 'admin.forgot_password',
         component: AdminForgotPassword
     }, {
-        path: '/admin/home',
+        path: ADMIN_DIR + '/home',
         name: 'admin.home',
         component: AdminHome
     },
     {
-        path: '/admin/reset-password',
+        path: ADMIN_DIR + '/reset-password',
         name: 'admin.reset_password',
         component: AdminResetPassword
     }

@@ -26,5 +26,12 @@ Route::middleware(['cors'])->group(function () {
         Route::post('register', [\App\Http\Controllers\Api\Admin\Auth\AuthController::class, 'register']);
         Route::post('forgot-password', [\App\Http\Controllers\Api\Admin\Auth\ForgotPasswordController::class, 'sendCodeResetPassword']);
         Route::post('reset-password', [\App\Http\Controllers\Api\Admin\Auth\ResetPasswordController::class, 'setNewPassword']);
+
+        Route::middleware(['auth:sanctum', 'auth_api.admin'])->group(function () {
+            Route::get('admin', [\App\Http\Controllers\Api\Admin\AdminController::class, 'getInfo']);
+        });
     });
+
+
+
 });

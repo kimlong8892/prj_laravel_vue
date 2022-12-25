@@ -5,7 +5,7 @@
     <div id="app">
         <router-view></router-view>
         <footer id="footer-main">
-            &copy;Copyright {{ new Date().getFullYear() }} by KimLong
+            &copy;Copyright {{ new Date().getFullYear() }} by KimLong Web
         </footer>
     </div>
 </template>

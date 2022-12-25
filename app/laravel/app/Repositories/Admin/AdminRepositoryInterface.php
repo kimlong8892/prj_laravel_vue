@@ -15,7 +15,7 @@ interface AdminRepositoryInterface {
 
     public function registerUserToken($name, $email, $password, $expiresAt, $tokenType = 'app_auth');
 
-    public function getUserCurrent();
+    public function getAdminCurrent();
 
     public function getAdminById($id);
 

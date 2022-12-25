@@ -61,11 +61,12 @@ import 'vue-loading-overlay/dist/css/index.css';
 import {useMeta} from 'vue-meta'
 import InputField from "@/components/Admin/Include/InputField";
 import ErrorAlert from "@/components/Admin/Include/ErrorAlert";
+import i18n from '../../../i18n';
 
 export default {
     setup() {
         useMeta({
-            title: 'Admin login'
+            title: i18n.t('Admin login')
         });
     },
     name: 'AdminLogin',

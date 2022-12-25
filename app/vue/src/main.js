@@ -1,14 +1,25 @@
 import { createApp } from 'vue';
-import App from './MainApp';
-import router from './router/index';
+import AppAdmin from './MainAppAdmin';
+import AppWeb from './MainAppWeb';
+import routerAdmin from './router/admin/index';
 import store from "./store/index";
 import i18n from "@/i18n";
 import './styles/app.css';
 import { createMetaManager } from 'vue-meta'
 
-const app = createApp(App);
-app.use(router);
-app.use(store);
-app.use(i18n);
-app.use(createMetaManager());
-app.mount('#app');
+const firstPathUrl = window.location.pathname.split('/').filter(n => n)[0] ?? '';
+
+if (firstPathUrl === 'admin') {
+    const app = createApp(AppAdmin);
+    app.use(routerAdmin);
+    app.use(store);
+    app.use(i18n);
+    app.use(createMetaManager());
+    app.mount('#app');
+} else {
+    const app = createApp(AppWeb);
+    app.use(store);
+    app.use(i18n);
+    app.use(createMetaManager());
+    app.mount('#app');
+}

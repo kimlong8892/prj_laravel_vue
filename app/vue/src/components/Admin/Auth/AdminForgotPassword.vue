@@ -55,11 +55,12 @@ import Loading from 'vue-loading-overlay';
 import InputField from "@/components/Admin/Include/InputField";
 import SuccessAlert from "@/components/Admin/Include/SuccessAlert";
 import ErrorAlert from "@/components/Admin/Include/ErrorAlert";
+import i18n from "@/i18n";
 
 export default {
     setup() {
         useMeta({
-            title: 'Admin forgot password'
+            title: i18n.t('Admin forgot password')
         });
     },
     name: 'AdminForgotPassword',

@@ -56,7 +56,7 @@ class AdminRepository implements AdminRepositoryInterface {
         return $admin->createToken($tokenType, ['*'], $expiresAt)->plainTextToken;
     }
 
-    public function getUserCurrent(): ?\Illuminate\Contracts\Auth\Authenticatable {
+    public function getAdminCurrent(): ?\Illuminate\Contracts\Auth\Authenticatable {
         return auth('sanctum')->user();
     }
 
