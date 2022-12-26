@@ -17,3 +17,20 @@ export function isEmail(email) {
 export function getAdminDir() {
     return '/' + (process.env.VUE_APP_ADMIN_DIR ?? 'admin');
 }
+
+export function setGetParam(key,value) {
+    if (history.pushState) {
+        let params = new URLSearchParams(window.location.search);
+        params.set(key, value);
+        let newUrl = window.location.origin
+            + window.location.pathname
+            + '?' + params.toString();
+        window.history.pushState({path:newUrl},'',newUrl);
+    }
+}
+
+export function isNumeric(str) {
+    if (typeof str != "string") return false // we only process strings!
+    return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+        !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+}

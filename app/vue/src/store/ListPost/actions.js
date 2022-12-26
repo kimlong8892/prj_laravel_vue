@@ -8,8 +8,9 @@ export default {
                 Authorization: 'Bearer ' + localStorage.getItem('admin_access_token'),
                 Accept: 'application/json'
             },
-            data: {
-                page: context.getters.getCurrentPage
+            params: {
+                page: context.getters.getCurrentPage,
+                search: context.getters.getSearch
             }
         })
         .then(response => {

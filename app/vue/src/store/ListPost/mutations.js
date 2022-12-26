@@ -10,5 +10,8 @@ export default {
     },
     setCurrentPage(state, currentPage) {
         state.currentPage = currentPage;
+    },
+    setSearch(state, search) {
+        state.search = search;
     }
 }
