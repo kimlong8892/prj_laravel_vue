@@ -32,7 +32,6 @@
         },
         beforeMount(){
             this.actionAdminInfo();
-            console.log(this.getAdminInfo);
         },
     }
 </script>

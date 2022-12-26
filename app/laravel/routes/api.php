@@ -30,6 +30,10 @@ Route::middleware(['cors'])->group(function () {
 
         Route::middleware(['auth:sanctum', 'auth_api.admin'])->group(function () {
             Route::get('admin', [\App\Http\Controllers\Api\Admin\AdminController::class, 'getInfo']);
+
+
+            Route::resource('posts', \App\Http\Controllers\Api\Admin\PostController::class);
         });
     });
+
 });

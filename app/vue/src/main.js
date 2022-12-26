@@ -5,6 +5,7 @@ import routerAdmin from './router/admin/index';
 import store from "./store/index";
 import i18n from "@/i18n";
 import './styles/app.css';
+import '../public/fontawesome/css/all.css';
 import { createMetaManager } from 'vue-meta'
 
 const firstPathUrl = window.location.pathname.split('/').filter(n => n)[0] ?? '';

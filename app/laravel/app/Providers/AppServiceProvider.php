@@ -6,6 +6,8 @@ use App\Repositories\Admin\AdminRepository;
 use App\Repositories\Admin\AdminRepositoryInterface;
 use App\Repositories\Eav\EavRepository;
 use App\Repositories\Eav\EavRepositoryInterface;
+use App\Repositories\Post\PostRepository;
+use App\Repositories\Post\PostRepositoryInterface;
 use App\Repositories\SocialAccount\SocialAccountRepository;
 use App\Repositories\SocialAccount\SocialAccountRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -35,6 +37,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             AdminRepositoryInterface::class,
             AdminRepository::class
+        );
+        $this->app->bind(
+            PostRepositoryInterface::class,
+            PostRepository::class
         );
     }
 

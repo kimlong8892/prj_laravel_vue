@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AdminRouter from "@/router/admin/AdminRouter";
+import AdminNotFound from "@/components/Admin/404/AdminNotFound.vue";
 
 const router = createRouter({
     history: createWebHistory(),
     routes:  [
-        ...AdminRouter
+        ...AdminRouter,
+        {path: '/:catchAll(.*)', component: AdminNotFound}
     ]
 });
 
