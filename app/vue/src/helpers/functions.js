@@ -15,5 +15,5 @@ export function isEmail(email) {
 }
 
 export function getAdminDir() {
-    return process.env.VUE_APP_ADMIN_DIR ?? null;
+    return '/' + (process.env.VUE_APP_ADMIN_DIR ?? 'admin');
 }

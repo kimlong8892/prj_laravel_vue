@@ -32,7 +32,4 @@ Route::middleware(['cors'])->group(function () {
             Route::get('admin', [\App\Http\Controllers\Api\Admin\AdminController::class, 'getInfo']);
         });
     });
-
-
-
 });

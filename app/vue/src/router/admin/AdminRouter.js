@@ -2,8 +2,9 @@ import AdminForgotPassword from "@/components/Admin/Auth/AdminForgotPassword";
 import AdminHome from "@/components/Admin/Home/AdminHome";
 import AdminLogin from "@/components/Admin/Auth/AdminLogin";
 import AdminResetPassword from "@/components/Admin/Auth/AdminResetPassword";
+import {getAdminDir} from "@/helpers/functions";
 
-const ADMIN_DIR = "/" + process.env.VUE_APP_ADMIN_DIR ?? 'admin';
+const ADMIN_DIR = getAdminDir();
 
 const AdminRouter = [{
     path: ADMIN_DIR + '/login',
