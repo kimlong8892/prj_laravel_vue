@@ -21,7 +21,13 @@ export function getAdminDir() {
 export function setGetParam(key,value) {
     if (history.pushState) {
         let params = new URLSearchParams(window.location.search);
-        params.set(key, value);
+
+        if (value === '') {
+            params.delete(key);
+        } else {
+            params.set(key, value);
+        }
+        
         let newUrl = window.location.origin
             + window.location.pathname
             + '?' + params.toString();
