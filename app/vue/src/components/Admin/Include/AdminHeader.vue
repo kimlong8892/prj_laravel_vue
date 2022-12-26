@@ -70,37 +70,6 @@ export default {
                         </svg>
                     </button>
                 </div>
-                <div class="relative">
-                    <span
-                            class="absolute inset-y-0 left-0 flex items-center py-4"
-                    >
-                        <button
-                                type="submit"
-                                class="p-2 focus:outline-none focus:ring"
-                        >
-                            <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="w-6 h-6"
-                            >
-                                <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-                                />
-                            </svg>
-                        </button>
-                    </span>
-                    <input
-                            type="search"
-                            name="Search"
-                            placeholder="Search..."
-                            class="w-full py-2 pl-10 text-sm rounded-md focus:outline-none"
-                    />
-                </div>
                 <div class="flex-1">
                     <ul class="pt-2 pb-4 space-y-1 text-sm">
                         <li class="rounded-sm">
