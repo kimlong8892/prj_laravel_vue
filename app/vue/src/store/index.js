@@ -4,6 +4,7 @@ import AdminForgotPasswordStore from "@/store/AdminForgotPassword/store";
 import AdminResetPasswordStore from "@/store/AdminResetPassword/store";
 import AdminInfoStore from "@/store/AdminInfo/store";
 import ListPostStore from "@/store/ListPost/store";
+import PostStore from "@/store/Post/store";
 
 const store = createStore({
     modules: {
@@ -11,7 +12,8 @@ const store = createStore({
         AdminForgotPasswordStore,
         AdminResetPasswordStore,
         AdminInfoStore,
-        ListPostStore
+        ListPostStore,
+        PostStore
     }
 });
 

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Post\PostUpdateRequest;
+use App\Models\Post;
 use App\Repositories\Post\PostRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -45,7 +47,7 @@ class PostController extends Controller {
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return Response
      */
     public function store(Request $request) {
@@ -66,21 +68,34 @@ class PostController extends Controller {
      * Show the form for editing the specified resource.
      *
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
-    public function edit($id) {
-        //
+    public function edit(int $id): JsonResponse {
+        $post = $this->postRepository->getDetail($id);
+
+        if (empty($post)) {
+            abort(404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $post
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param PostUpdateRequest $request
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
-    public function update(Request $request, $id) {
-        //
+    public function update(PostUpdateRequest $request, int $id): JsonResponse {
+        $this->postRepository->update($id, $request->only(['name', 'content']));
+
+        return response()->json([
+            'success' => true
+        ]);
     }
 
     /**

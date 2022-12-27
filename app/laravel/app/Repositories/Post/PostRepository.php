@@ -11,8 +11,7 @@ class PostRepository implements PostRepositoryInterface {
                 if (!empty($search)) {
                     $query->where('name', 'like', '%' . $search . '%');
                 }
-            })
-            ->count();
+            })->count();
 
         return [
             'list_post' => Post::with(['admin'])
@@ -26,5 +25,17 @@ class PostRepository implements PostRepositoryInterface {
                 ->get(),
             'total_page' => ceil($totalRow / $perPage)
         ];
+    }
+
+    public function getDetail($id) {
+        return Post::find($id);
+    }
+
+    public function update($id, $data): bool {
+        $post = Post::find($id);
+        $post->fill($data);
+        $post->save();
+
+        return true;
     }
 }

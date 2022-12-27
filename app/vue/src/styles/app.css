@@ -42,3 +42,7 @@
     text-transform: uppercase;
     font-size: 1.2rem;
 }
+
+.ck-editor__editable {
+    max-height: 600px;
+}

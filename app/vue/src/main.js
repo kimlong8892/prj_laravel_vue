@@ -6,7 +6,8 @@ import store from "./store/index";
 import i18n from "@/i18n";
 import './styles/app.css';
 import '../public/fontawesome/css/all.css';
-import { createMetaManager } from 'vue-meta'
+import { createMetaManager } from 'vue-meta';
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
 const firstPathUrl = window.location.pathname.split('/').filter(n => n)[0] ?? '';
 
@@ -16,6 +17,7 @@ if (firstPathUrl === 'admin') {
     app.use(store);
     app.use(i18n);
     app.use(createMetaManager());
+    app.use(CKEditor);
     app.mount('#app');
 } else {
     const app = createApp(AppWeb);

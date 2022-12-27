@@ -26,12 +26,15 @@ export default {
 
                 // eslint-disable-next-line no-prototype-builtins
                 if (data.hasOwnProperty('list_post')) {
+
+                    console.log(data.list_post);
                     context.commit('setListPost', data.list_post);
                 }
             }
         })
         .catch(e => {
-            console.log(e);
+            context.commit('setLoading', false);
+            context.commit('setError', e.response.data.message ?? 'ERROR_NO_MESS');
         });
     }
 }

@@ -27,7 +27,21 @@ const i18n = createI18n({
             "Admin home": "Trang chủ quản trị",
             "Admin login": "Đăng nhập quản trị",
             "Admin forgot password": "Quên mật khẩu quản trị",
-            "Admin reset password": "Đặt lại mật khẩu quản trị"
+            "Admin reset password": "Đặt lại mật khẩu quản trị",
+            "UPDATE_POST_SUCCESS": "Cập nhật bài viết thành công",
+            "List post": "Danh sách bài viết",
+            "Input search": "Nhập nội dung search",
+            "Search": "Tìm kiếm",
+            "ID": "#",
+            "Name": "Tên",
+            "Admin create": "Người đăng",
+            "Action": "Hành động",
+            "Previous": "Trang trước",
+            "Next": "Trang sau",
+            "Content": "Nội dung",
+            "Save": "Lưu",
+            "Admin post edit": "Cập nhật bài viết",
+            "Admin list post": "Danh sách bài viết"
         }
     }
 });

@@ -4,6 +4,7 @@ import AdminLogin from "@/components/Admin/Auth/AdminLogin";
 import AdminResetPassword from "@/components/Admin/Auth/AdminResetPassword";
 import {getAdminDir} from "@/helpers/functions";
 import AdminListPost from "@/components/Admin/Post/AdminListPost.vue";
+import AdminEditPost from "@/components/Admin/Post/AdminEditPost.vue";
 
 const ADMIN_DIR = getAdminDir();
 
@@ -31,6 +32,11 @@ const AdminRouter = [
         path: ADMIN_DIR + '/post/index',
         name: 'admin.post.index',
         component: AdminListPost
+    },
+    {
+        path: ADMIN_DIR + '/post/edit/:id',
+        name: 'admin.post.edit',
+        component: AdminEditPost
     }
 ];
 

@@ -96,7 +96,7 @@ export default {
                                     />
                                 </svg>
 
-                                <span :class="'text-gray-100 ' + ($route.name === 'admin.post.index' ? 'text-success' : '')">{{ $t('Post management') }}</span>
+                                <span :class="'text-gray-100 ' + ($route.name === 'admin.post.index' || $route.name === 'admin.post.edit' ? 'text-success' : '')">{{ $t('Post management') }}</span>
                             </RouterLink>
                         </li>
                         <li class="rounded-sm" @click="logout">

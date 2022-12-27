@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -41,10 +42,45 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function register()
-    {
-        $this->reportable(function (Throwable $e) {
-            //
+    public function register(): void {
+        $this->renderable(function (\Illuminate\Auth\AuthenticationException $e, $request) {
+            Log::error($e->getMessage());
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'success' => false,
+                    'code_error' => 'NOT_AUTHENTICATED'
+                ], 401);
+            }
+
+            return $this;
         });
+    }
+
+    public function render($request, Throwable $e) {
+        if ($request->is('api/*')) {
+            $response = [
+                'success' => false,
+                'mgs' => $e->getMessage(),
+                'code_error' => 'SERVER_ERROR'
+            ];
+
+            $status = 400;
+
+            if ($this->isHttpException($e)) {
+                $status = $e->getStatusCode();
+            }
+
+
+            Log::error($e->getMessage());
+
+            if ($status === 404) {
+                $response['mgs'] = 'NOT_FOUND';
+                $response['code_error'] = 'NOT_FOUND';
+            }
+
+            return response()->json($response, $status);
+        }
+
+        return parent::render($request, $e);
     }
 }

@@ -13,5 +13,8 @@ export default {
     },
     setSearch(state, search) {
         state.search = search;
+    },
+    setError(state, error) {
+        state.error = error;
     }
 }
