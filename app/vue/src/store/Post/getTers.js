@@ -5,5 +5,6 @@ export default {
     getDetailError: state => state.detailError,
     getUpdateError: state => state.updateError,
     getIsSuccessUpdate: state => state.isSuccessUpdate,
-    getAddError: state => state.addError
+    getAddError: state => state.addError,
+    getImage: state => state.image
 }

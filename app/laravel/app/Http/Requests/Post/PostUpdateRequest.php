@@ -23,7 +23,8 @@ class PostUpdateRequest extends FormRequest
     public function rules(): array {
         return [
             'name' => 'required',
-            'content' => 'required'
+            'content' => 'required',
+            'image' => 'required'
         ];
     }
 }

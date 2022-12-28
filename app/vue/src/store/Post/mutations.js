@@ -19,5 +19,8 @@ export default {
     },
     setAddError(state, addError) {
         state.addError = addError;
+    },
+    setImage(state, image) {
+        state.image = image;
     }
 }

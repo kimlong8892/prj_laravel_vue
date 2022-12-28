@@ -24,15 +24,20 @@ export default {
     },
 
     updatePostAction(context, postId) {
+        let data = new FormData();
+
+        console.log(context.getters.getImage);
+        data.append('image', context.getters.getImage);
+        data.append('name', context.getters.getName);
+        data.append('content', context.getters.getContent);
+        data.append('_method', 'PUT');
         context.commit('setLoading', true);
-        axios.put(process.env.VUE_APP_URL_API_BACKEND + '/admin/posts/' + postId, {
-           id: postId,
-           name: context.getters.getName,
-           content: context.getters.getContent
-        }, {
+
+        axios.post(process.env.VUE_APP_URL_API_BACKEND + '/admin/posts/' + postId, data, {
             headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('admin_access_token'),
-                Accept: 'application/json'
+                'Authorization': 'Bearer ' + localStorage.getItem('admin_access_token'),
+                'Accept': 'application/json',
+                "Content-Type": "application/x-www-form-urlencoded"
             }
         })
         .then(() => {

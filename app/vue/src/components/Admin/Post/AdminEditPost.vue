@@ -7,13 +7,7 @@
     <ErrorAlert v-if="this.getDetailError" :error="this.getDetailError"/>
 
     <form v-else class="space-y-4 md:space-y-6" @submit.prevent="submitForm">
-<!--      <InputField name="image"-->
-<!--                  :modelValue="this.image"-->
-<!--                  @update:modelValue="this.image = $event; validate();"-->
-<!--                  :error="this.errors.image"-->
-<!--                  type="file"-->
-<!--                  label="Image"-->
-<!--      />-->
+      <input type="file" accept="image/*" @change="uploadImage($event)" id="file-input" />
       <InputField name="email"
                   :modelValue="this.name"
                   @update:modelValue="this.name = $event; validate();"
@@ -91,10 +85,10 @@ export default {
         isInvalid = true;
       }
 
-      // if (this.image === null) {
-      //   this.errors.image = 'FIELD_IS_REQUIRED';
-      //   isInvalid = true;
-      // }
+      if (this.image === null) {
+        this.errors.image = 'FIELD_IS_REQUIRED';
+        isInvalid = true;
+      }
 
       return isInvalid;
     },
@@ -104,11 +98,15 @@ export default {
       if (!isInvalid) {
         this.setName(this.name);
         this.setContent(this.content.data);
+        this.setImage(this.image);
         this.updatePostAction(this.id);
       }
     },
     ...mapActions('PostStore', ['getPostEditAction', 'updatePostAction']),
-    ...mapMutations('PostStore', ['setName', 'setContent'])
+    ...mapMutations('PostStore', ['setName', 'setContent', 'setImage']),
+    uploadImage(event) {
+      this.image = event.target.files[0];
+    }
   },
   async beforeMount() {
     await this.getPostEditAction(this.id);

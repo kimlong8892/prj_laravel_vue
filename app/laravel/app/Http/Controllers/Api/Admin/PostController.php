@@ -78,7 +78,7 @@ class PostController extends Controller {
      * @return JsonResponse
      */
     public function update(PostUpdateRequest $request, int $id): JsonResponse {
-        $this->postRepository->update($id, $request->only(['name', 'content']));
+        $this->postRepository->update($id, $request->all());
 
         return response()->json([
             'success' => true

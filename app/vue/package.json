@@ -23,7 +23,8 @@
     "vue-plugin-load-script": "^2.1.1",
     "vue-recaptcha": "^2.0.0",
     "vue-router": "^4.1.6",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "form-data": "^4.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
