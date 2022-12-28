@@ -1,7 +1,7 @@
 <template>
   <section class="bg-gray-50 dark:bg-gray-900">
-        <loading v-model:active="this.getLoading"
-                 :is-full-page="true"/>
+    <loading v-model:active="this.getLoading"
+             :is-full-page="true"/>
 
     <ErrorAlert v-if="this.getUpdateError" :error="this.getUpdateError"/>
     <ErrorAlert v-if="this.getDetailError" :error="this.getDetailError"/>
@@ -29,7 +29,7 @@
         {{ $t('Save') }}
       </button>
     </form>
-    <SuccessAlert v-if="this.getIsSuccessUpdate" :success="$t('UPDATE_POST_SUCCESS')" />
+    <SuccessAlert v-if="this.getIsSuccessUpdate" :success="$t('UPDATE_POST_SUCCESS')"/>
   </section>
 </template>
 
@@ -37,13 +37,13 @@
 import {useMeta} from "vue-meta";
 import i18n from "@/i18n";
 import InputField from "@/components/Admin/Include/InputField.vue";
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import RequiredIcon from "@/components/Admin/Include/RequiredIcon.vue";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import Loading from 'vue-loading-overlay';
 import ErrorAlert from "@/components/Admin/Include/ErrorAlert.vue";
 import SuccessAlert from "@/components/Admin/Include/SuccessAlert.vue";
-
+import {CkeditorUploadAdapterPlugin} from "@/helpers/functions";
 
 export default {
   setup() {
@@ -62,7 +62,13 @@ export default {
       content: {
         editor: ClassicEditor,
         data: '',
-        editorConfig: {}
+        editorConfig: {
+          extraPlugins: [CkeditorUploadAdapterPlugin],
+          toolbar: ['headings', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'uploadImage', 'ckfinder'],
+          ckfinder: {
+
+          }
+        }
       }
     }
   },

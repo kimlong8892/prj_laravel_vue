@@ -35,4 +35,5 @@ Route::middleware(['cors'])->group(function () {
         });
     });
 
+    Route::post('editor/image_upload', [\App\Http\Controllers\Api\UploadImageController::class, 'upload']);
 });

@@ -1,3 +1,5 @@
+import CkeditorUploadImage from "@/CkeditorUploadImage";
+
 export function isEmptyObject(obj) {
     if (obj === null || obj === undefined) {
         return true;
@@ -59,5 +61,11 @@ export function ckeditorConfig() {
             { name: 'about', groups: [ 'about' ] }
         ],
         removeButtons: 'NewPage,Print,Save,Templates,Replace,Find,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CreateDiv,Anchor,Flash,Smiley,PageBreak,ShowBlocks,About,Language,Iframe,Image',
+    };
+}
+
+export function CkeditorUploadAdapterPlugin( editor ) {
+    editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+        return new CkeditorUploadImage( loader );
     };
 }
