@@ -3,17 +3,9 @@
     <loading v-model:active="this.getLoading"
              :is-full-page="true"/>
 
-    <ErrorAlert v-if="this.getUpdateError" :error="this.getUpdateError"/>
-    <ErrorAlert v-if="this.getDetailError" :error="this.getDetailError"/>
+    <ErrorAlert v-if="this.getAddError" :error="this.getAddError"/>
 
     <form v-else class="space-y-4 md:space-y-6" @submit.prevent="submitForm">
-<!--      <InputField name="image"-->
-<!--                  :modelValue="this.image"-->
-<!--                  @update:modelValue="this.image = $event; validate();"-->
-<!--                  :error="this.errors.image"-->
-<!--                  type="file"-->
-<!--                  label="Image"-->
-<!--      />-->
       <InputField name="email"
                   :modelValue="this.name"
                   @update:modelValue="this.name = $event; validate();"
@@ -36,7 +28,7 @@
         {{ $t('Save') }}
       </button>
     </form>
-    <SuccessAlert v-if="this.getIsSuccessUpdate" :success="$t('UPDATE_POST_SUCCESS')"/>
+    <SuccessAlert v-if="this.getIsAddSuccess" :success="$t('ADD_POST_SUCCESS')"/>
   </section>
 </template>
 
@@ -55,27 +47,26 @@ import {ckeditorConfig} from "@/helpers/functions";
 export default {
   setup() {
     useMeta({
-      'title': i18n.t('Admin post edit')
+      'title': i18n.t('Admin post new')
     })
   },
   computed: {
-    ...mapGetters('PostStore', ['getName', 'getContent', 'getLoading', 'getDetailError', 'getUpdateError', 'getIsSuccessUpdate'])
+    ...mapGetters('PostStore', ['getName', 'getContent', 'getLoading', 'getAddError'])
   },
   data() {
     return {
       errors: [],
-      id: this.$route.params.id,
+      id: '',
       name: '',
       content: {
         editor: ClassicEditor,
         data: '',
-        editorConfig: ckeditorConfig(),
-      },
-      image: null
+        editorConfig: ckeditorConfig()
+      }
     }
   },
   components: {InputField, RequiredIcon, Loading, ErrorAlert, SuccessAlert},
-  name: 'AdminEditPost',
+  name: 'AdminNewPost',
   methods: {
     validate() {
       let isInvalid = false;
@@ -91,11 +82,6 @@ export default {
         isInvalid = true;
       }
 
-      // if (this.image === null) {
-      //   this.errors.image = 'FIELD_IS_REQUIRED';
-      //   isInvalid = true;
-      // }
-
       return isInvalid;
     },
     submitForm() {
@@ -104,16 +90,11 @@ export default {
       if (!isInvalid) {
         this.setName(this.name);
         this.setContent(this.content.data);
-        this.updatePostAction(this.id);
+        this.addPostAction();
       }
     },
-    ...mapActions('PostStore', ['getPostEditAction', 'updatePostAction']),
+    ...mapActions('PostStore', ['addPostAction']),
     ...mapMutations('PostStore', ['setName', 'setContent'])
-  },
-  async beforeMount() {
-    await this.getPostEditAction(this.id);
-    this.name = this.getName;
-    this.content.data = this.getContent;
-  },
+  }
 }
 </script>

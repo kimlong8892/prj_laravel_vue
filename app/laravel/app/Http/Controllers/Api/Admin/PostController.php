@@ -36,32 +36,19 @@ class PostController extends Controller {
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create() {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      */
-    public function store(Request $request) {
-        //
-    }
+    public function store(Request $request): JsonResponse {
+        $request->request->set('admin_id', auth('sanctum')->user()->id);
+        $postId = $this->postRepository->store($request->toArray());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
-     */
-    public function show($id) {
-        //
+        return response()->json([
+            'success' => true,
+            'post_id' => $postId
+        ]);
     }
 
     /**

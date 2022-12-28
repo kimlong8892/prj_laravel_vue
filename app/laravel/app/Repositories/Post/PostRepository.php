@@ -31,11 +31,36 @@ class PostRepository implements PostRepositoryInterface {
         return Post::find($id);
     }
 
-    public function update($id, $data): bool {
+    public function update($id, $data): int {
         $post = Post::find($id);
+        $post->fill($data);
+
+        if (!empty($data['image'])) {
+            $this->uploadOrAddImage($data['image'], $post);
+        }
+
+        $post->save();
+
+        return $post->getAttribute('id');
+    }
+
+    public function store($data): int {
+        $post = new Post();
         $post->fill($data);
         $post->save();
 
-        return true;
+        if (!empty($data['image'])) {
+            $this->uploadOrAddImage($data['image'], $post);
+        }
+
+        $post->save();
+
+        return $post->getAttribute('id');
+    }
+
+    private function uploadOrAddImage($imageFile, &$post) {
+        $imagePath = 'post_images/' . $post->getAttribute('id');
+        $imageUrl = uploadImage($imageFile, 'avatar', $imagePath);
+        $post->setAttribute('image', $imageUrl);
     }
 }

@@ -4,5 +4,6 @@ export default {
     getLoading: state => state.isLoading,
     getDetailError: state => state.detailError,
     getUpdateError: state => state.updateError,
-    getIsSuccessUpdate: state => state.isSuccessUpdate
+    getIsSuccessUpdate: state => state.isSuccessUpdate,
+    getAddError: state => state.addError
 }

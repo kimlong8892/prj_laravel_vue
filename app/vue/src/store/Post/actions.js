@@ -43,5 +43,31 @@ export default {
             context.commit('setLoading', false);
             context.commit('setUpdateError', e.response.data.mgs ?? 'ERROR_NO_MESS');
         });
+    },
+
+    addPostAction(context) {
+        context.commit('setLoading', true);
+        axios.post(process.env.VUE_APP_URL_API_BACKEND + '/admin/posts', {
+            name: context.getters.getName,
+            content: context.getters.getContent
+        }, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('admin_access_token'),
+                Accept: 'application/json'
+            }
+        })
+        .then(response => {
+            context.commit('setLoading', false);
+
+            // eslint-disable-next-line no-prototype-builtins
+            if (response.data.hasOwnProperty('post_id')) {
+                window.location.replace(window.location.origin + '/admin/post/edit/' + response.data.post_id);
+            }
+        })
+        .catch(e => {
+            console.log(e);
+            context.commit('setLoading', false);
+            context.commit('setAddError', e.response.data.mgs ?? 'ERROR_NO_MESS');
+        });
     }
 }

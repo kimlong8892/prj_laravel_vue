@@ -16,5 +16,8 @@ export default {
     },
     setIsSuccessUpdate(state, isSuccessUpdate) {
         state.isSuccessUpdate = isSuccessUpdate;
+    },
+    setAddError(state, addError) {
+        state.addError = addError;
     }
 }

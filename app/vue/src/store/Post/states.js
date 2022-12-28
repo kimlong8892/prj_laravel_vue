@@ -4,5 +4,6 @@ export default {
     isLoading: false,
     detailError: '',
     updateError: '',
+    addError: '',
     isSuccessUpdate: false
 };

@@ -14,9 +14,17 @@ class Post extends Model
 
     protected $table = 'posts';
 
-    protected $fillable = ['name', 'content'];
+    protected $fillable = ['name', 'content', 'admin_id', 'image'];
 
     public function admin(): \Illuminate\Database\Eloquent\Relations\BelongsTo {
         return $this->belongsTo(Admin::class, 'admin_id');
+    }
+
+    public function getImage(): string {
+        if (!empty($this->image) && is_file(public_path($this->image))) {
+            return asset($this->image);
+        }
+
+        return asset('images/not_found.png');
     }
 }
