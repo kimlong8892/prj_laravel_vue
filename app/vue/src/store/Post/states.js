@@ -1,7 +1,8 @@
 export default {
     name: '',
     content: '',
-    image: null,
+    image: '',
+    imageUrl: '',
     isLoading: false,
     detailError: '',
     updateError: '',

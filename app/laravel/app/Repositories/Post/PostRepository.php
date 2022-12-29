@@ -2,7 +2,9 @@
 
 namespace App\Repositories\Post;
 use App\Models\Post;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Mockery\Mock;
 
 class PostRepository implements PostRepositoryInterface {
     public function getAll($search = null, $page = 1, $perPage = 10): \Illuminate\Database\Eloquent\Collection|array {
@@ -33,12 +35,13 @@ class PostRepository implements PostRepositoryInterface {
 
     public function update($id, $data): int {
         $post = Post::find($id);
-        $post->fill($data);
 
-        if (!empty($data['image'])) {
+        if (!empty($data['image']) && $data['image'] instanceof UploadedFile) {
             $this->uploadOrAddImage($data['image'], $post);
         }
 
+        unset($data['image']);
+        $post->fill($data);
         $post->save();
 
         return $post->getAttribute('id');
@@ -59,8 +62,10 @@ class PostRepository implements PostRepositoryInterface {
     }
 
     private function uploadOrAddImage($imageFile, &$post) {
-        $imagePath = 'post_images/' . $post->getAttribute('id');
-        $imageUrl = uploadImage($imageFile, 'avatar', $imagePath);
-        $post->setAttribute('image', $imageUrl);
+        if ($imageFile instanceof UploadedFile) {
+            $imagePath = 'post_images/' . $post->getAttribute('id');
+            $imageUrl = uploadImage($imageFile, 'avatar', $imagePath);
+            $post->setAttribute('image', $imageUrl);
+        }
     }
 }

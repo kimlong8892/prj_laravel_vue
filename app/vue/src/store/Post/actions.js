@@ -16,6 +16,7 @@ export default {
             const data = response.data.data;
             context.commit('setName', data.name);
             context.commit('setContent', data.content);
+            context.commit('setImageUrl', data.image);
         })
         .catch(e => {
             context.commit('setLoading', false);

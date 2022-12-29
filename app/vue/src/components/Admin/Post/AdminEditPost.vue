@@ -7,6 +7,7 @@
     <ErrorAlert v-if="this.getDetailError" :error="this.getDetailError"/>
 
     <form v-else class="space-y-4 md:space-y-6" @submit.prevent="submitForm">
+      <img v-if="this.getImageUrl" :src="this.getImageUrl" alt="" style="width: 128px" />
       <input type="file" accept="image/*" @change="uploadImage($event)" id="file-input" />
       <InputField name="email"
                   :modelValue="this.name"
@@ -53,7 +54,7 @@ export default {
     })
   },
   computed: {
-    ...mapGetters('PostStore', ['getName', 'getContent', 'getLoading', 'getDetailError', 'getUpdateError', 'getIsSuccessUpdate'])
+    ...mapGetters('PostStore', ['getImageUrl', 'getName', 'getContent', 'getLoading', 'getDetailError', 'getUpdateError', 'getIsSuccessUpdate'])
   },
   data() {
     return {
@@ -85,11 +86,6 @@ export default {
         isInvalid = true;
       }
 
-      if (this.image === null) {
-        this.errors.image = 'FIELD_IS_REQUIRED';
-        isInvalid = true;
-      }
-
       return isInvalid;
     },
     submitForm() {
@@ -103,9 +99,10 @@ export default {
       }
     },
     ...mapActions('PostStore', ['getPostEditAction', 'updatePostAction']),
-    ...mapMutations('PostStore', ['setName', 'setContent', 'setImage']),
+    ...mapMutations('PostStore', ['setName', 'setContent', 'setImage', 'setImageUrl']),
     uploadImage(event) {
       this.image = event.target.files[0];
+      this.setImageUrl(URL.createObjectURL(this.image));
     }
   },
   async beforeMount() {

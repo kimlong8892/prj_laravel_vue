@@ -6,5 +6,6 @@ export default {
     getUpdateError: state => state.updateError,
     getIsSuccessUpdate: state => state.isSuccessUpdate,
     getAddError: state => state.addError,
-    getImage: state => state.image
+    getImage: state => state.image,
+    getImageUrl: state => state.imageUrl
 }

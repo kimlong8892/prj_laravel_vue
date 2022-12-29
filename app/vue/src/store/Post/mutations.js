@@ -22,5 +22,8 @@ export default {
     },
     setImage(state, image) {
         state.image = image;
+    },
+    setImageUrl(state, imageUrl) {
+        state.imageUrl = imageUrl;
     }
 }

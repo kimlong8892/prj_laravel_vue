@@ -46,3 +46,15 @@
 .ck-editor__editable {
     height: 500px;
 }
+
+.main-left {
+    width: 12% !important;
+    height: auto;
+}
+
+.main-right {
+    width: 88% !important;
+    height: auto;
+    padding: 1rem;
+    max-width: 88% !important;
+}

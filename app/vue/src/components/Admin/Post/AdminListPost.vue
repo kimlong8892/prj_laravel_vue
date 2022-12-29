@@ -50,7 +50,7 @@
           <td>{{ this.getListPost[index - 1].id }}</td>
           <td>{{ this.getListPost[index - 1].name }}</td>
           <td>{{ this.getListPost[index - 1].admin.name }}</td>
-          <td>
+          <td class="text-center">
             <RouterLink :to="'/admin/post/edit/' + this.getListPost[index - 1].id"
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
               <i class="fa fa-edit"></i>
@@ -121,6 +121,7 @@ import {useMeta} from 'vue-meta'
 import i18n from "@/i18n";
 import {setGetParam} from "@/helpers/functions";
 import ErrorAlert from "@/components/Admin/Include/ErrorAlert.vue";
+let isLoadFirst = false;
 
 export default {
   setup() {
@@ -161,8 +162,11 @@ export default {
     }
   },
   beforeMount() {
-    this.setSearch(this.search);
-    this.changePage(this.$route.query.page);
+    if (!isLoadFirst) {
+      this.setSearch(this.search);
+      this.changePage(this.$route.query.page);
+      isLoadFirst = true;
+    }
   }
 }
 </script>

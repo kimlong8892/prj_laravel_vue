@@ -11,11 +11,11 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
-    if (to.name === 'admin.home') {
+    if (to.name !== 'admin.login' && to.name !== 'admin.forgot_password' && to.name !== 'admin.reset_password') {
         if (!localStorage.getItem('admin_access_token')) {
             window.location.replace(window.location.origin + '/admin/login');
         }
-    } else if (to.name === 'admin.login' || to.name === 'admin.forgot_password' || to.name === 'admin.reset_password') {
+    } else {
         if (localStorage.getItem('admin_access_token')) {
             window.location.replace(window.location.origin + '/admin/home');
         }

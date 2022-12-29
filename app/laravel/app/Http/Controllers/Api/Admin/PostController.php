@@ -60,6 +60,8 @@ class PostController extends Controller {
     public function edit(int $id): JsonResponse {
         $post = $this->postRepository->getDetail($id);
 
+        $post['image'] = $post->getImage();
+
         if (empty($post)) {
             abort(404);
         }

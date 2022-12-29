@@ -44,7 +44,7 @@ export default {
     <div class="flex">
         <div
                 :class="isOpen ? 'w-40' : 'w-60'"
-                class="flex flex-col h-screen p-3 duration-300 bg-gray-800 shadow"
+                class="flex flex-col h-screen p-3 duration-300 bg-gray-800 shadow main-left"
         >
             <div class="space-y-3">
                 <h1 class="text-xl font-bold text-white text-success">
@@ -125,7 +125,7 @@ export default {
                 </div>
             </div>
         </div>
-        <div class="container mx-auto mt-12">
+        <div class="container main-right">
             <router-view></router-view>
         </div>
     </div>
