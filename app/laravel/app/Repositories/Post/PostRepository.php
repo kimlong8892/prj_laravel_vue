@@ -13,6 +13,7 @@ class PostRepository implements PostRepositoryInterface {
             ->where(function ($query) use ($search) {
                 if (!empty($search)) {
                     $query->where('name', 'like', '%' . $search . '%');
+                    $query->orWhere('content', 'like', '%' . $search . '%');
                 }
             })->count();
 
@@ -21,6 +22,7 @@ class PostRepository implements PostRepositoryInterface {
                 ->where(function ($query) use ($search) {
                     if (!empty($search)) {
                         $query->where('name', 'like', '%' . $search . '%');
+                        $query->orWhere('content', 'like', '%' . $search . '%');
                     }
                 })
                 ->limit($perPage)

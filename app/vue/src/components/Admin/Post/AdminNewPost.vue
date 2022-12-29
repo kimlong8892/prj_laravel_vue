@@ -6,7 +6,7 @@
     <ErrorAlert v-if="this.getAddError" :error="this.getAddError"/>
 
     <form v-else class="space-y-4 md:space-y-6" @submit.prevent="submitForm">
-
+      <img v-if="this.getImageUrl" :src="this.getImageUrl" alt="" style="width: 128px"/>
       <div>
         <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
           {{ $t('Avatar post') }}
@@ -54,7 +54,7 @@ export default {
     })
   },
   computed: {
-    ...mapGetters('PostStore', ['getName', 'getContent', 'getLoading', 'getAddError'])
+    ...mapGetters('PostStore', ['getName', 'getContent', 'getLoading', 'getAddError', 'getImageUrl'])
   },
   data() {
     return {
@@ -62,7 +62,7 @@ export default {
       id: '',
       name: '',
       content: '',
-      image: ''
+      image: '',
     }
   },
   components: {InputField, Loading, ErrorAlert, SuccessAlert, CkeditorField},
@@ -77,7 +77,7 @@ export default {
         isInvalid = true;
       }
 
-      if (this.content.data === '') {
+      if (this.content === '') {
         this.errors.content = 'FIELD_IS_REQUIRED';
         isInvalid = true;
       }
@@ -95,7 +95,7 @@ export default {
       }
     },
     ...mapActions('PostStore', ['addPostAction']),
-    ...mapMutations('PostStore', ['setName', 'setContent', 'setImage']),
+    ...mapMutations('PostStore', ['setName', 'setContent', 'setImage', 'setImageUrl']),
     uploadImage(event) {
       this.image = event.target.files[0];
       this.setImageUrl(URL.createObjectURL(this.image));

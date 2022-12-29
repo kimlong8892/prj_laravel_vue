@@ -52,6 +52,20 @@
     height: auto;
 }
 
+@media only screen and (max-width: 768px) {
+    .main-left {
+        width: 20% !important;
+    }
+
+    .main-right {
+        width: 80% !important;
+    }
+
+    .main-left li span {
+        display: none;
+    }
+}
+
 .main-right {
     width: 88% !important;
     height: auto;
@@ -61,4 +75,8 @@
 
 .main-app {
     min-height: 100vh;
+}
+
+.bg-success {
+    background: green;
 }

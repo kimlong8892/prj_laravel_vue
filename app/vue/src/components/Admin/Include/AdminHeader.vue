@@ -47,30 +47,26 @@ export default {
                 class="flex flex-col h-screen p-3 duration-300 bg-gray-800 shadow main-left"
         >
             <div class="space-y-3">
-                <h1 class="text-xl font-bold text-white text-success">
-                    {{ $t('hello') }} - {{ this.getAdminInfo.name }}
-                </h1>
-
                 <div class="flex-1">
                     <ul class="pt-2 pb-4 space-y-1 text-sm">
-                        <li class="rounded-sm">
+                        <li :class="'rounded-sm ' + ($route.name === 'admin.home' ? 'bg-success' : '')">
                             <router-link
                                     :to="getAdminDir() + '/home'"
                                     class="flex items-center p-2 space-x-3 rounded-md"
                             >
                                 <i class="fa fa-home fa-2x text-white"></i>
 
-                                <span :class="'text-gray-100 ' + ($route.name === 'admin.home' ? 'text-success' : '')">{{ $t('Home Admin') }}</span>
+                                <span class="text-gray-100">{{ $t('Home Admin') }}</span>
                             </router-link>
                         </li>
-                        <li class="rounded-sm">
+                        <li :class="'rounded-sm ' + ($route.name === 'admin.post.index' || $route.name === 'admin.post.edit' ? 'bg-success' : '')">
                             <RouterLink
                                     :to="getAdminDir() + '/post/index'"
                                     class="flex items-center p-2 space-x-3 rounded-md"
                             >
                                 <i class="fa fa-pager fa-2x text-white"></i>
 
-                                <span :class="'text-gray-100 ' + ($route.name === 'admin.post.index' || $route.name === 'admin.post.edit' ? 'text-success' : '')">{{ $t('Post management') }}</span>
+                                <span class="text-gray-100">{{ $t('Post management') }}</span>
                             </RouterLink>
                         </li>
                         <li class="rounded-sm" @click="logout">
@@ -79,7 +75,7 @@ export default {
                             >
                                 <i class="fa fa-user fa-2x text-white"></i>
 
-                                <span class="text-gray-100">{{ $t('Logout') }}</span>
+                                <span class="text-gray-100">{{ this.getAdminInfo.name }} - {{ $t('Logout') }}</span>
                             </span>
                         </li>
                     </ul>

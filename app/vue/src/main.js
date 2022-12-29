@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import AppAdmin from './MainAppAdmin';
 import AppWeb from './MainAppWeb';
-import routerAdmin from './router/admin/index';
+import routerAdmin from './router/AdminRoute';
 import store from "./store/index";
 import i18n from "@/i18n";
 import './styles/app.css';
