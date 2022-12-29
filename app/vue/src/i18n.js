@@ -41,7 +41,8 @@ const i18n = createI18n({
             "Content": "Nội dung",
             "Save": "Lưu",
             "Admin post edit": "Cập nhật bài viết",
-            "Admin list post": "Danh sách bài viết"
+            "Admin list post": "Danh sách bài viết",
+            "Home Admin": "Tổng quan"
         }
     }
 });

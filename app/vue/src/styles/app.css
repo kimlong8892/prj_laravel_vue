@@ -58,3 +58,7 @@
     padding: 1rem;
     max-width: 88% !important;
 }
+
+.main-app {
+    min-height: 100vh;
+}
