@@ -22,6 +22,7 @@
                                     :error="this.errors.password"
                                     type="password"
                                     label="PASSWORD"
+                                    :required="true"
                         />
 
                         <InputField name="confirm_password"
@@ -30,6 +31,7 @@
                                     :error="this.errors.confirmPassword"
                                     type="password"
                                     label="CONFIRM PASSWORD"
+                                    :required="true"
                         />
 
                         <div>

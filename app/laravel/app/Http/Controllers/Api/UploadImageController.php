@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class UploadImageController extends Controller {
     public function upload(Request $request): \Illuminate\Http\JsonResponse {
         if ($request->has('upload')) {
-            $imagePath = 'uploads';
+            $imagePath = 'ckeditor_uploads';
             $imageName = time() . '_' . rand(1111, 99999) . time() * rand(1111, 9999);
             $imageUrl = uploadImage($request->file('upload'), $imageName, $imagePath);
 

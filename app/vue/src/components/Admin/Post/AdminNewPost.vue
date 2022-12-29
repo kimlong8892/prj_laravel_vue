@@ -6,6 +6,14 @@
     <ErrorAlert v-if="this.getAddError" :error="this.getAddError"/>
 
     <form v-else class="space-y-4 md:space-y-6" @submit.prevent="submitForm">
+
+      <div>
+        <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+          {{ $t('Avatar post') }}
+        </label>
+        <input type="file" name="image" accept="image/*"
+               @change="uploadImage($event)"/>
+      </div>
       <InputField name="email"
                   :modelValue="this.name"
                   @update:modelValue="this.name = $event; validate();"
@@ -13,16 +21,13 @@
                   type="text"
                   label="Name"
       />
-      <div>
-        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          {{ $t('Content') }}
-          <RequiredIcon/>
-        </label>
-        <ckeditor :editor="this.content.editor" v-model="this.content.data"
-                  @blur="validate()"
-                  :config="this.content.editorConfig"></ckeditor>
-        <p class="text-red" v-if="this.errors.content">{{ $t(this.errors.content) }}</p>
-      </div>
+      <CkeditorField name="content"
+                     :modelValue="this.content"
+                     @update:modelValue="this.content = $event; validate();"
+                     :error="this.errors.content"
+                     label="Content"
+                     :required="true"
+      />
       <button type="submit"
               class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
         {{ $t('Save') }}
@@ -36,13 +41,11 @@
 import {useMeta} from "vue-meta";
 import i18n from "@/i18n";
 import InputField from "@/components/Admin/Include/InputField.vue";
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import RequiredIcon from "@/components/Admin/Include/RequiredIcon.vue";
+import CkeditorField from "@/components/Admin/Include/CkeditorField";
 import {mapActions, mapGetters, mapMutations} from "vuex";
 import Loading from 'vue-loading-overlay';
 import ErrorAlert from "@/components/Admin/Include/ErrorAlert.vue";
 import SuccessAlert from "@/components/Admin/Include/SuccessAlert.vue";
-import {ckeditorConfig} from "@/helpers/functions";
 
 export default {
   setup() {
@@ -58,14 +61,11 @@ export default {
       errors: [],
       id: '',
       name: '',
-      content: {
-        editor: ClassicEditor,
-        data: '',
-        editorConfig: ckeditorConfig()
-      }
+      content: '',
+      image: ''
     }
   },
-  components: {InputField, RequiredIcon, Loading, ErrorAlert, SuccessAlert},
+  components: {InputField, Loading, ErrorAlert, SuccessAlert, CkeditorField},
   name: 'AdminNewPost',
   methods: {
     validate() {
@@ -89,12 +89,17 @@ export default {
 
       if (!isInvalid) {
         this.setName(this.name);
-        this.setContent(this.content.data);
+        this.setContent(this.content);
+        this.setImage(this.image);
         this.addPostAction();
       }
     },
     ...mapActions('PostStore', ['addPostAction']),
-    ...mapMutations('PostStore', ['setName', 'setContent'])
+    ...mapMutations('PostStore', ['setName', 'setContent', 'setImage']),
+    uploadImage(event) {
+      this.image = event.target.files[0];
+      this.setImageUrl(URL.createObjectURL(this.image));
+    }
   }
 }
 </script>

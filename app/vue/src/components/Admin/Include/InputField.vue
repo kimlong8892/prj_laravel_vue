@@ -2,7 +2,7 @@
     <div>
         <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             {{ $t(this.label) }}
-            <RequiredIcon/>
+            <RequiredIcon v-if="this.required"/>
         </label>
         <input :type="this.type"
                :name="this.name"
@@ -37,11 +37,10 @@
             'error': {
                 type: String,
                 value: ''
-            }
-        },
-        methods: {
-            updateValue(value) {
-                console.log(value);
+            },
+            'required': {
+                type: Boolean,
+                value: false
             }
         }
     }

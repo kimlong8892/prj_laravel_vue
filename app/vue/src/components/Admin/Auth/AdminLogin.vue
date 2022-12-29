@@ -19,6 +19,7 @@
                                     :error="this.errors.email"
                                     type="text"
                                     label="EMAIL"
+                                    :required="true"
                                     />
 
                         <InputField name="password"
@@ -27,6 +28,7 @@
                                     :error="this.errors.password"
                                     type="password"
                                     label="PASSWORD"
+                                    :required="true"
                                     />
                         <div>
                             <vue-recaptcha @verify="verifyCaptcha" class="w-100"

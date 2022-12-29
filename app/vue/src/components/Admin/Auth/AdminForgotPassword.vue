@@ -22,6 +22,7 @@
                                     :error="this.errors.email"
                                     type="text"
                                     label="EMAIL"
+                                    :required="true"
                         />
                         <div>
                             <vue-recaptcha @verify="verifyCaptcha" class="w-100"

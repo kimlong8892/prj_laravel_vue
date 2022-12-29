@@ -26,8 +26,6 @@ export default {
 
     updatePostAction(context, postId) {
         let data = new FormData();
-
-        console.log(context.getters.getImage);
         data.append('image', context.getters.getImage);
         data.append('name', context.getters.getName);
         data.append('content', context.getters.getContent);
@@ -52,14 +50,17 @@ export default {
     },
 
     addPostAction(context) {
+        let data = new FormData();
+        data.append('image', context.getters.getImage);
+        data.append('name', context.getters.getName);
+        data.append('content', context.getters.getContent);
+
         context.commit('setLoading', true);
-        axios.post(process.env.VUE_APP_URL_API_BACKEND + '/admin/posts', {
-            name: context.getters.getName,
-            content: context.getters.getContent
-        }, {
+        axios.post(process.env.VUE_APP_URL_API_BACKEND + '/admin/posts', data, {
             headers: {
                 Authorization: 'Bearer ' + localStorage.getItem('admin_access_token'),
-                Accept: 'application/json'
+                Accept: 'application/json',
+                "Content-Type": "application/x-www-form-urlencoded"
             }
         })
         .then(response => {
@@ -71,7 +72,6 @@ export default {
             }
         })
         .catch(e => {
-            console.log(e);
             context.commit('setLoading', false);
             context.commit('setAddError', e.response.data.mgs ?? 'ERROR_NO_MESS');
         });

@@ -4,6 +4,7 @@ namespace App\Repositories\Post;
 use App\Models\Post;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Mockery\Mock;
 
 class PostRepository implements PostRepositoryInterface {
@@ -62,7 +63,11 @@ class PostRepository implements PostRepositoryInterface {
     }
 
     private function uploadOrAddImage($imageFile, &$post) {
-        if ($imageFile instanceof UploadedFile) {
+        if ($imageFile instanceof UploadedFile && $post instanceof Post) {
+            foreach (File::glob(public_path('post_images') .  '/' . $post->getAttribute('id') . '/*') as $path) {
+                File::delete($path);
+            }
+
             $imagePath = 'post_images/' . $post->getAttribute('id');
             $imageUrl = uploadImage($imageFile, 'avatar', $imagePath);
             $post->setAttribute('image', $imageUrl);

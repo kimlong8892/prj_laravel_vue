@@ -2,7 +2,7 @@
 /public/build
 /public/hot
 /public/storage
-/public/uploads
+/public/ckeditor_uploads
 /public/post_images
 /storage/*.key
 /vendor
