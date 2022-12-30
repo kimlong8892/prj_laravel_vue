@@ -43,7 +43,8 @@ export default {
         axios.get(process.env.VUE_APP_URL_API_BACKEND + '/posts', {
             params: {
                 page: context.getters.getCurrentPage,
-                search: context.getters.getSearch
+                search: context.getters.getSearch,
+                per_page: 12
             }
         })
             .then(response => {
