@@ -6,3 +6,4 @@ backup
 proxy_manager_config/proxy_manager
 nginx/logs
 nginx/logs/*
+/proxy_manager_config/proxy_manager

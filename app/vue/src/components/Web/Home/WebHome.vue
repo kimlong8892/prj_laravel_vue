@@ -2,7 +2,7 @@
     <div>
         <loading v-model:active="this.getLoading"
                :is-full-page="true"/>
-        <div class="grid-container grid grid-cols-5" v-if="this.getListPost">
+        <div class="grid-container grid grid-cols-4" v-if="this.getListPost">
             <div class="item1 col-span-1" v-for="index in this.getListPost.length" :key="index">
               <PostItemList :image="this.getListPost[index - 1].image" :name="this.getListPost[index - 1].name" />
             </div>
@@ -56,6 +56,7 @@
     import PostItemList from "@/components/Web/Include/Post/PostItemInList";
     import Loading from 'vue-loading-overlay';
     import {setGetParam} from "@/helpers/functions";
+    let isLoadFirst = false;
 
     export default {
       components: {PostItemList, Loading},
@@ -84,7 +85,11 @@
           },
         },
       beforeMount() {
-          this.getListPostActionWeb();
+          if (!isLoadFirst) {
+              isLoadFirst = true;
+              this.changePage(this.$route.query.page);
+              this.getListPostActionWeb();
+          }
       }
     }
 </script>
