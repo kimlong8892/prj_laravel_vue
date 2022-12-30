@@ -7,4 +7,5 @@ interface PostRepositoryInterface {
     public function getDetail($id);
     public function update($id, $data);
     public function store($data);
+    public function delete($id);
 }

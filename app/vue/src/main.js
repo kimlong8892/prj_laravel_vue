@@ -8,6 +8,7 @@ import './styles/app.css';
 import '../public/fontawesome/css/all.css';
 import { createMetaManager } from 'vue-meta';
 import CKEditor from '@ckeditor/ckeditor5-vue';
+import webRoute from "@/router/WebRoute";
 
 const firstPathUrl = window.location.pathname.split('/').filter(n => n)[0] ?? '';
 
@@ -21,6 +22,7 @@ if (firstPathUrl === 'admin') {
     app.mount('#app');
 } else {
     const app = createApp(AppWeb);
+    app.use(webRoute);
     app.use(store);
     app.use(i18n);
     app.use(createMetaManager());

@@ -57,3 +57,15 @@ export function CkeditorUploadAdapterPlugin( editor ) {
         return new CkeditorUploadImage( loader );
     };
 }
+
+export function baseUrl() {
+    return window.location.origin;
+}
+
+export function siteName() {
+    if (process.env.VUE_APP_SITE_NAME === undefined) {
+        return 'BlogTest';
+    }
+
+    return process.env.VUE_APP_SITE_NAME;
+}

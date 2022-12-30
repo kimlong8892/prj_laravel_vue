@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\PostUpdateRequest;
-use App\Models\Post;
 use App\Repositories\Post\PostRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class PostController extends Controller {
     protected PostRepositoryInterface $postRepository;
@@ -91,9 +89,13 @@ class PostController extends Controller {
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
-    public function destroy($id) {
-        //
+    public function destroy(int $id): JsonResponse {
+        $this->postRepository->delete($id);
+
+        return response()->json([
+            'success' => true
+        ]);
     }
 }

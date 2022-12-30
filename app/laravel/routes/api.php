@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['cors'])->group(function () {
+    // Admin
     Route::prefix('user')->group(function () {
         Route::post('login', [\App\Http\Controllers\Api\Auth\AuthController::class, 'login']);
         Route::post('register', [\App\Http\Controllers\Api\Auth\AuthController::class, 'register']);
@@ -34,6 +35,14 @@ Route::middleware(['cors'])->group(function () {
             Route::resource('posts', \App\Http\Controllers\Api\Admin\PostController::class)->except(['show', 'create']);
         });
     });
+    // end Admin
 
+    // Admin && Web
     Route::post('editor/image_upload', [\App\Http\Controllers\Api\UploadImageController::class, 'upload']);
+    // end Admin && Web
+
+
+    // Web
+
+    // end Web
 });

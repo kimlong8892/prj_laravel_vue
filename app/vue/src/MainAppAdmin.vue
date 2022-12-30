@@ -1,6 +1,6 @@
 <template>
     <metainfo>
-        <template v-slot:title="{ content }">{{ content ? `${content} | Vue` : `Vue` }}</template>
+        <template v-slot:title="{ content }">{{ content ? `${content} | ` + this.siteName : this.siteName }}</template>
     </metainfo>
     <div id="app">
         <div v-if="this.getAdminInfo">
@@ -20,6 +20,7 @@
 <script>
     import AdminHeader from "@/components/Admin/Include/AdminHeader";
     import {mapActions, mapGetters} from "vuex";
+    import {siteName} from "@/helpers/functions";
 
     export default {
         name: 'MainAppAdmin',
@@ -33,5 +34,10 @@
         beforeMount(){
             this.actionAdminInfo();
         },
+        data() {
+            return {
+                siteName: siteName()
+            }
+        }
     }
 </script>

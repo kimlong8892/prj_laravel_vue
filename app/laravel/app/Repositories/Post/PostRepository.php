@@ -75,4 +75,9 @@ class PostRepository implements PostRepositoryInterface {
             $post->setAttribute('image', $imageUrl);
         }
     }
+
+    public function delete($id) {
+        $post = Post::find($id);
+        $post->delete();
+    }
 }

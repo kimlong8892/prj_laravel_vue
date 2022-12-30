@@ -42,7 +42,9 @@ const i18n = createI18n({
             "Save": "Lưu",
             "Admin post edit": "Cập nhật bài viết",
             "Admin list post": "Danh sách bài viết",
-            "Home Admin": "Tổng quan"
+            "Home Admin": "Tổng quan",
+            "Post management": "Quản lí bài viết",
+            "Logout": "Đăng xuất"
         }
     }
 });
