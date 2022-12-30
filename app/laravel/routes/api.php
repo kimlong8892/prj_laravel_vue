@@ -43,6 +43,6 @@ Route::middleware(['cors'])->group(function () {
 
 
     // Web
-
+    Route::resource('posts', \App\Http\Controllers\Api\Web\PostController::class);
     // end Web
 });

@@ -17,17 +17,23 @@ class PostRepository implements PostRepositoryInterface {
                 }
             })->count();
 
+        $listPost = Post::with(['admin'])
+            ->where(function ($query) use ($search) {
+                if (!empty($search)) {
+                    $query->where('name', 'like', '%' . $search . '%');
+                    $query->orWhere('content', 'like', '%' . $search . '%');
+                }
+            })
+            ->limit($perPage)
+            ->offset(($page - 1) * $perPage)
+            ->get();
+
+        foreach ($listPost as $post) {
+            $post->image = $post->getImage();
+        }
+
         return [
-            'list_post' => Post::with(['admin'])
-                ->where(function ($query) use ($search) {
-                    if (!empty($search)) {
-                        $query->where('name', 'like', '%' . $search . '%');
-                        $query->orWhere('content', 'like', '%' . $search . '%');
-                    }
-                })
-                ->limit($perPage)
-                ->offset(($page - 1) * $perPage)
-                ->get(),
+            'list_post' => $listPost,
             'total_page' => ceil($totalRow / $perPage)
         ];
     }

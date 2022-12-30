@@ -4,7 +4,7 @@
     </metainfo>
     <div id="app">
         <WebHeader></WebHeader>
-        <div class="container pl-5 pr-5">
+        <div class="container-fluid pl-5 pr-5">
             <router-view></router-view>
         </div>
         <WebFooter></WebFooter>
