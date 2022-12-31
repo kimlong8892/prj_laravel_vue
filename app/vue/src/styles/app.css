@@ -84,3 +84,11 @@
 .w-50-present {
     width: 50% !important;
 }
+
+.pl-10 {
+    padding-left: 10% !important;
+}
+
+.pr-10 {
+    padding-right: 10% !important;
+}
