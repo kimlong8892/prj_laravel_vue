@@ -1,4 +1,5 @@
 import axios from 'axios';
+import i18n from "@/i18n";
 
 export default {
     getListPostAction(context) {
@@ -79,14 +80,13 @@ export default {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
         })
-            .then(response => {
+            .then(() => {
                 context.commit('setLoading', false);
-                context.commit('setListPost', context.getters.getListPost.filter(function(el) { return el.id !== id; }))
-                console.log(response);
+                window.location.replace(window.location.origin + '/admin/post/index?page=' + context.getters.getCurrentPage);
             })
             .catch(e => {
                 context.commit('setLoading', false);
-                console.log(e);
+                alert(e.data.mgs ?? i18n.t('ERROR'));
             });
     }
 }

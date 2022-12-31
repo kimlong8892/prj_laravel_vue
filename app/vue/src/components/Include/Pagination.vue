@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-3 mb-5" v-if="this.totalPage > 1">
+  <div class="mt-3 mb-5 text-center" v-if="this.totalPage > 1">
     <nav aria-label="Page navigation example">
       <ul class="inline-flex -space-x-px">
         <li v-if="this.currentPage > 1">

@@ -80,3 +80,7 @@
 .bg-success {
     background: green;
 }
+
+.w-50-present {
+    width: 50% !important;
+}

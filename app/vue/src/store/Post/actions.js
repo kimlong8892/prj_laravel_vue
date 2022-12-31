@@ -25,6 +25,28 @@ export default {
         });
     },
 
+    async getPostDetailAction(context, postId) {
+        context.commit('setLoading', true);
+
+        await axios.get(process.env.VUE_APP_URL_API_BACKEND + '/posts/' + postId)
+            .then(response => {
+                console.log(response);
+
+                context.commit('setLoading', false);
+                const data = response.data.data;
+                context.commit('setImage', data.image);
+                context.commit('setName', data.name);
+                context.commit('setContent', data.content);
+                context.commit('setImageUrl', data.image);
+                context.commit('setId', data.id);
+            })
+            .catch(e => {
+                context.commit('setLoading', false);
+                // context.commit('setDetailError', e.response.data.mgs ?? 'ERROR_NO_MESS');
+                console.log(e);
+            });
+    },
+
     updatePostAction(context, postId) {
         let data = new FormData();
         data.append('image', context.getters.getImage);
