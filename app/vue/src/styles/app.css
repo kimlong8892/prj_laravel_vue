@@ -92,3 +92,12 @@
 .pr-10 {
     padding-right: 10% !important;
 }
+
+header {
+    position: fixed;
+    width: 100%;
+}
+
+.container-app-web {
+    padding-top: 50px;
+}

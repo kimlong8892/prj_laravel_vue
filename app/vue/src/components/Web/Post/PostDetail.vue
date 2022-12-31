@@ -21,13 +21,14 @@ export default {
     name: 'PostDetail',
     components: {Loading},
     computed: {
-        ...mapGetters('PostStore', ['getLoading', 'getId', 'getName', 'getContent', 'getImage'])
+        ...mapGetters('PostStore', ['getLoading', 'getId', 'getName', 'getContent', 'getImage']),
     },
     methods: {
         ...mapActions('PostStore', ['getPostDetailAction']),
     },
     async beforeMount() {
-        await this.getPostDetailAction(this.$route.params.id);
+       await this.getPostDetailAction(this.$route.params.id);
+       document.title = this.getName;
     }
 }
 </script>

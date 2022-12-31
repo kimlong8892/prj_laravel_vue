@@ -26,7 +26,7 @@ export default {
     setup() {
         useMeta({
             'title': i18n.t('Home')
-        })
+        });
     },
     computed: {
         ...mapGetters('ListPostStore', ['getError', 'getLoading', 'getListPost', 'getTotalPage', 'getCurrentPage'])
