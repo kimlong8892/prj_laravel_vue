@@ -1,4 +1,7 @@
 export default {
+    setId(state, id) {
+        state.id = id;
+    },
     setName(state, name) {
         state.name = name;
     },

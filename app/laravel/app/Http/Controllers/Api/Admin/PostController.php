@@ -22,7 +22,7 @@ class PostController extends Controller {
      * @return JsonResponse
      */
     public function index(Request $request): JsonResponse {
-        $dataPost = $this->postRepository->getAll($request->get('search'), $request->get('page'), $request->get('per_page'));
+        $dataPost = $this->postRepository->getAll($request->get('search'), $request->get('page'), $request->get('per_page') ?? 10);
 
         return response()->json([
             'success' => true,

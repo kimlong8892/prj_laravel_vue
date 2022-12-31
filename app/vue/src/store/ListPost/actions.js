@@ -69,5 +69,24 @@ export default {
                 context.commit('setLoading', false);
                 context.commit('setError', e.response.data.message ?? 'ERROR_NO_MESS');
             });
+    },
+    deletePostAction(context, id) {
+        context.commit('setLoading', true);
+        axios.delete(process.env.VUE_APP_URL_API_BACKEND + '/admin/posts/' + id, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('admin_access_token'),
+                Accept: 'application/json',
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        })
+            .then(response => {
+                context.commit('setLoading', false);
+                context.commit('setListPost', context.getters.getListPost.filter(function(el) { return el.id !== id; }))
+                console.log(response);
+            })
+            .catch(e => {
+                context.commit('setLoading', false);
+                console.log(e);
+            });
     }
 }

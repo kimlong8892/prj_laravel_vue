@@ -17,6 +17,7 @@ export default {
             context.commit('setName', data.name);
             context.commit('setContent', data.content);
             context.commit('setImageUrl', data.image);
+            context.commit('setId', data.id);
         })
         .catch(e => {
             context.commit('setLoading', false);
@@ -75,5 +76,24 @@ export default {
             context.commit('setLoading', false);
             context.commit('setAddError', e.response.data.mgs ?? 'ERROR_NO_MESS');
         });
+    },
+
+    deletePostAction(context) {
+        context.commit('setLoading', true);
+        axios.delete(process.env.VUE_APP_URL_API_BACKEND + '/admin/posts/' + context.getters.getId, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('admin_access_token'),
+                Accept: 'application/json',
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        })
+            .then(response => {
+                context.commit('setLoading', false);
+                console.log(response);
+            })
+            .catch(e => {
+                context.commit('setLoading', false);
+                console.log(e);
+            });
     }
 }

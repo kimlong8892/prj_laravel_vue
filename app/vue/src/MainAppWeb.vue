@@ -11,8 +11,8 @@
     </div>
 </template>
 <script>
-import WebHeader from "@/components/Web/Include/WebHeader";
-import WebFooter from "@/components/Web/Include/WebFooter";
+import WebHeader from "@/components/Web/Include/Header";
+import WebFooter from "@/components/Web/Include/Footer";
 import {siteName} from "@/helpers/functions";
 export default {
     components: {WebFooter, WebHeader},

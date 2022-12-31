@@ -7,7 +7,7 @@
     <ErrorAlert v-if="this.getDetailError" :error="this.getDetailError"/>
 
     <form v-else class="space-y-4 md:space-y-6" @submit.prevent="submitForm">
-      <img v-if="this.getImageUrl" :src="this.getImageUrl" alt="" style="width: 128px" />
+      <img v-if="this.getImageUrl" :src="this.getImageUrl" alt="" style="width: 128px"/>
 
       <div>
         <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

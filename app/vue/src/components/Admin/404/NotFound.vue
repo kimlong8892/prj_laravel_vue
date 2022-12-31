@@ -6,6 +6,6 @@
 
 <script>
   export default {
-      name: 'AdminNotFound',
+      name: 'NotFound',
   }
 </script>

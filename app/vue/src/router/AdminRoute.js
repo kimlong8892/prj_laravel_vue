@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import AdminNotFound from "@/components/Admin/404/AdminNotFound.vue";
+import AdminNotFound from "@/components/Admin/404/NotFound.vue";
 import {getAdminDir} from "@/helpers/functions";
-import AdminLogin from "@/components/Admin/Auth/AdminLogin.vue";
-import AdminForgotPassword from "@/components/Admin/Auth/AdminForgotPassword.vue";
-import AdminHome from "@/components/Admin/Home/AdminHome.vue";
-import AdminResetPassword from "@/components/Admin/Auth/AdminResetPassword.vue";
-import AdminListPost from "@/components/Admin/Post/AdminListPost.vue";
-import AdminEditPost from "@/components/Admin/Post/AdminEditPost.vue";
-import AdminNewPost from "@/components/Admin/Post/AdminNewPost.vue";
+import AdminLogin from "@/components/Admin/Auth/Login.vue";
+import AdminForgotPassword from "@/components/Admin/Auth/ForgotPassword.vue";
+import AdminHome from "@/components/Admin/Home/Home.vue";
+import AdminResetPassword from "@/components/Admin/Auth/ResetPassword.vue";
+import AdminListPost from "@/components/Admin/Post/ListPost.vue";
+import AdminEditPost from "@/components/Admin/Post/EditPost.vue";
+import AdminNewPost from "@/components/Admin/Post/NewPost.vue";
 
 const ADMIN_DIR = getAdminDir();
 const AdminRouter = [

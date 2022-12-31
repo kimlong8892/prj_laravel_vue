@@ -1,4 +1,5 @@
 export default {
+    getId: state => state.id,
     getName: state => state.name,
     getContent: state => state.content,
     getLoading: state => state.isLoading,
